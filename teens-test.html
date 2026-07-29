@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now You - Teen ESL Placement Exam</title>
+    <style>
+        /* CSS3 STYLES: Urban / Dark Mode / Neon Aesthetic */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        :root {
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-surface-light: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --neon-cyan: #22d3ee;
+            --neon-cyan-glow: rgba(34, 211, 238, 0.4);
+            --neon-pink: #f472b6;
+            --neon-pink-glow: rgba(244, 114, 182, 0.4);
+            --neon-purple: #c084fc;
+            --border-color: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* DASHBOARD LAYOUT */
+        .sidebar {
+            width: 300px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--neon-cyan);
+            text-shadow: 0 0 10px var(--neon-cyan-glow);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-header p {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .nav-books {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .nav-units {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--text-muted);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            border-color: var(--neon-purple);
+            color: var(--text-main);
+        }
+
+        .btn-book.active {
+            background-color: rgba(192, 132, 252, 0.1);
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            box-shadow: 0 0 15px rgba(192, 132, 252, 0.2);
+        }
+
+        .btn-unit.active {
+            background-color: rgba(34, 211, 238, 0.1);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+        }
+
+        .feed-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: none; /* Hidden until loaded */
+        }
+
+        .traceability-badge {
+            display: inline-block;
+            background-color: var(--bg-surface-light);
+            color: var(--text-muted);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .unit-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--text-main);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* CARDS / TASKS */
+        .card {
+            background-color: var(--bg-surface);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .card.speaking::before { background-color: var(--neon-cyan); box-shadow: 0 0 15px var(--neon-cyan); }
+        .card.writing::before { background-color: var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .speaking .card-header { color: var(--neon-cyan); }
+        .writing .card-header { color: var(--neon-pink); }
+
+        /* CONTENT FORMATTING */
+        .task-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+        }
+
+        .q-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .q-list li {
+            margin-bottom: 12px;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .q-list li::before {
+            content: '▶';
+            position: absolute;
+            left: 0;
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            top: 3px;
+        }
+
+        .teacher-notes {
+            background-color: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--neon-cyan-glow);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        .teacher-notes strong { color: var(--neon-cyan); }
+
+        .write-split {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+        }
+
+        .write-text { flex: 1; }
+        
+        .write-img-container {
+            flex: 0 0 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .write-img-container::after {
+            content: '📸 IG Post';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .write-img-container img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            height: 250px;
+        }
+
+        .word-count-badge {
+            display: inline-block;
+            background-color: rgba(244, 114, 182, 0.15);
+            color: var(--neon-pink);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            border: 1px solid var(--neon-pink-glow);
+        }
+
+        .example-quote {
+            display: block;
+            margin-top: 15px;
+            padding: 12px 15px;
+            background-color: var(--bg-surface-light);
+            border-left: 3px solid var(--neon-pink);
+            font-style: italic;
+            color: #e2e8f0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Mobile Response */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; border-right: none; border-bottom: 2px solid var(--border-color); }
+            .nav-books { flex-direction: row; overflow-x: auto; white-space: nowrap; }
+            .nav-units { flex-direction: row; overflow-x: auto; max-height: 80px; }
+            .main-content { padding: 20px; }
+            .write-split { flex-direction: column; }
+            .write-img-container { flex: auto; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>NOW YOU</h1>
+            <p>Placement Dashboard</p>
+        </div>
+        <div class="nav-books" id="book-nav">
+            <!-- Populated by JS -->
+        </div>
+        <div class="nav-units" id="unit-nav">
+            <!-- Populated by JS -->
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="feed-container" id="feed-container">
+            <div class="traceability-badge" id="trace-badge">Book 1 > Unit 1</div>
+            <h2 class="unit-title" id="unit-title">Our World</h2>
+            <img id="unit-hero" class="hero-img" src="" alt="Unit Theme">
+
+            <!-- SPEAKING TASK -->
+            <div class="card speaking">
+                <div class="card-header">🎙️ The Mic is On</div>
+                <div class="task-content" id="speak-content"></div>
+            </div>
+
+            <!-- WRITING TASK -->
+            <div class="card writing">
+                <div class="card-header">📱 The Feed</div>
+                <div class="task-content" id="write-content"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // MASSIVE DATA STRUCTURE (36 Units)
+        const curriculum = {
+            "Book 1 (Impact)": [
+                {
+                    unit: 1, topic: "Our World",
+                    hero: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Can you introduce yourself?", "Where are you from?", "What is your city like?"],
+                    sT: "Assess the verb 'to be', basic greetings, and simple present identity statements.",
+                    wP: "Write a short personal introduction for a new social media profile using 'be'.",
+                    wE: "'Hi guys! I am Alex. I am 14 years old and I am from Colombia. My city is beautiful.'",
+                    wC: "40 - 60 words",
+                    wImg: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 2, topic: "School",
+                    hero: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What time is your English class?", "What are your favorite hobbies?", "What do you do after school?"],
+                    sT: "Check prepositions of time (at 8:00, on Monday) and present simple for routines.",
+                    wP: "Write an informal email/DM to a friend about your school routine and hobbies.",
+                    wE: "'On Mondays, I have Math at 9:00 AM. After school, I play video games.'",
+                    wC: "50 - 70 words",
+                    wImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 3, topic: "Different People",
+                    hero: "https://images.unsplash.com/photo-1529156069898-49953eb1b5f6?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What does your best friend look like?", "What is their personality like?", "Are they shy or outgoing?"],
+                    sT: "Evaluate physical descriptions (has/is) and personality adjectives (friendly, shy), plus possessive adjectives (his/her).",
+                    wP: "Write a short description of a friend to post alongside a photo of them.",
+                    wE: "'This is my friend Sam. Her hair is dark. She is very funny and outgoing.'",
+                    wC: "50 - 70 words",
+                    wImg: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 4, topic: "Lifestyle",
+                    hero: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What are you wearing right now?", "Look out the window, what are people doing?", "Are you studying right now?"],
+                    sT: "Assess the Present Continuous (I am wearing, they are walking) for current actions.",
+                    wP: "Create a fashion blog post describing your current outfit and vibe.",
+                    wE: "'Today, I am wearing a black hoodie and blue jeans. I am relaxing at home.'",
+                    wC: "60 - 80 words",
+                    wImg: "https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 5, topic: "Outdoors",
+                    hero: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What is the weather like in your city today?", "How often does it rain?", "What do you usually do when it's sunny?"],
+                    sT: "Check weather vocabulary and adverbs of frequency (always, sometimes, never).",
+                    wP: "Write a postcard or social media update from a summer camp.",
+                    wE: "'The weather here is amazing. It is always sunny. We usually go hiking in the morning.'",
+                    wC: "60 - 80 words",
+                    wImg: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 6, topic: "Out and About",
+                    hero: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["How do I get to the nearest park from here?", "What is in your city?", "Is there a good cinema nearby?"],
+                    sT: "Evaluate giving directions (go straight, turn left) and 'There is / There are'.",
+                    wP: "Write a mini city-guide for tourists visiting your town.",
+                    wE: "'Welcome to my city! There is a huge mall downtown. To get there, take the bus and go straight.'",
+                    wC: "70 - 90 words",
+                    wImg: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 7, topic: "Adventure",
+                    hero: "https://images.unsplash.com/photo-1533240332313-0db49b459ad6?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Who is a famous explorer or athlete you like?", "Tell me about a trip you took in the past.", "Where were you last summer?"],
+                    sT: "Check the Past Simple of the verb 'to be' (was / were) and basic past time expressions.",
+                    wP: "Write a short biography of an adventurer or famous person in the past.",
+                    wE: "'Amelia Earhart was a famous pilot. She was very brave. Her flights were dangerous.'",
+                    wC: "70 - 90 words",
+                    wImg: "https://images.unsplash.com/photo-1506197061617-7f5c0b093236?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 8, topic: "Stories",
+                    hero: "https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Do you like ghost stories or thrillers?", "Tell me a short mystery.", "What did you do last Halloween?"],
+                    sT: "Assess the Past Simple tense with regular and irregular verbs (went, saw, played, walked).",
+                    wP: "Write a short, spooky narrative story for a blog.",
+                    wE: "'Last night, I walked into an old house. I heard a noise. I saw a shadow and ran away!'",
+                    wC: "80 - 100 words",
+                    wImg: "https://images.unsplash.com/photo-1518715303843-586e350765b2?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 9, topic: "Food",
+                    hero: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What do you usually eat for lunch?", "Can you order a meal in a restaurant?", "Do you like spicy food?"],
+                    sT: "Evaluate food vocabulary and quantifiers (some, any, a lot of, much, many).",
+                    wP: "Write a recipe or caption for a healthy snack video on TikTok/Reels.",
+                    wE: "'For this snack, you need some strawberries and a little honey. Don't add too much sugar!'",
+                    wC: "80 - 100 words",
+                    wImg: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80"
+                }
+            ],
+            "Book 2 (Connect)": [
+                {
+                    unit: 1, topic: "All About Me",
+                    hero: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What are your main interests?", "How would you describe yourself to a stranger?", "What are you good at?"],
+                    sT: "Check Present Simple fluency for habits/facts, and gerunds after prepositions (good at playing).",
+                    wP: "Write an informal 'About Me' section for a gaming or study profile.",
+                    wE: "'I am a creative person. I enjoy playing strategy games and I am good at solving puzzles.'",
+                    wC: "80 - 110 words",
+                    wImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 2, topic: "Daily Life",
+                    hero: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What is your exact daily routine?", "Do you have a favorite time of day? Why?", "How is your routine different on weekends?"],
+                    sT: "Evaluate complex time sequencing and contrastive routines using Present Simple.",
+                    wP: "Write a description of an 'alternative' routine, like a pro gamer or athlete's day.",
+                    wE: "'Pro gamers wake up late. First, they review strategies. Then, they stream for five hours.'",
+                    wC: "90 - 120 words",
+                    wImg: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 3, topic: "Art Forms",
+                    hero: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What kind of art or music do you like?", "Who is a famous artist or musician you respect?", "Have you ever been to a concert?"],
+                    sT: "Assess vocabulary related to culture and basic expressions of preference/opinion.",
+                    wP: "Write a short review of a cultural event, movie, or album for a blog.",
+                    wE: "'The concert was incredible. The band played beautifully, and the lighting was spectacular. I highly recommend it.'",
+                    wC: "100 - 120 words",
+                    wImg: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 4, topic: "Special Day",
+                    hero: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What was your last birthday party like?", "Was there good music?", "What did you use to do on your birthdays as a child?"],
+                    sT: "Check 'used to' for past habits and 'there was/there were' for past descriptions.",
+                    wP: "Write an event review or recap of a surprise party using past structures.",
+                    wE: "'When I was younger, I used to have clown parties. But yesterday, there was a huge DJ set.'",
+                    wC: "100 - 130 words",
+                    wImg: "https://images.unsplash.com/photo-1530103862676-de88b628fd78?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 5, topic: "Get Connected",
+                    hero: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["How will technology change in 10 years?", "Can you give me instructions for using your favorite app?", "What were you doing when your phone died?"],
+                    sT: "Evaluate Past Continuous vs Past Simple, and Imperatives for instructions.",
+                    wP: "Write a tech review of a new gadget or app using the Past Continuous to tell a story.",
+                    wE: "'I was playing the new game when it suddenly crashed. Click the reset button to fix it.'",
+                    wC: "110 - 140 words",
+                    wImg: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 6, topic: "Staying Healthy",
+                    hero: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Should I eat more vegetables?", "What are the rules at your school?", "What must you do to stay fit?"],
+                    sT: "Check modal verbs for advice and obligation (should, must, mustn't, have to).",
+                    wP: "Create a health and wellness leaflet/post with tips for teenagers.",
+                    wE: "'You should drink a lot of water. You mustn't eat junk food every day if you want to be healthy.'",
+                    wC: "110 - 140 words",
+                    wImg: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 7, topic: "Travel",
+                    hero: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Have you ever traveled by plane?", "What places have you visited?", "Have you already packed for your next holiday?"],
+                    sT: "Assess Present Perfect for life experiences (ever/never) and recent events (already/yet).",
+                    wP: "Write a customer review of an airline or hotel using the Present Perfect.",
+                    wE: "'I have traveled with this airline twice. I have already booked my next flight. It's the best I've ever seen.'",
+                    wC: "120 - 150 words",
+                    wImg: "https://images.unsplash.com/photo-1569154941061-e231b4732ef1?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 8, topic: "Faraway Friends",
+                    hero: "https://images.unsplash.com/photo-1611273426858-450d8e3c9cce?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What will happen if global warming continues?", "If it rains tomorrow, what will you do?", "How can we protect nature?"],
+                    sT: "Evaluate the First Conditional (If + present, will + base verb) for real future possibilities.",
+                    wP: "Write a short opinion essay/blog about protecting the environment using conditionals.",
+                    wE: "'If we don't recycle, the oceans will become polluted. If we act now, we will save the planet.'",
+                    wC: "130 - 160 words",
+                    wImg: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 9, topic: "World",
+                    hero: "https://images.unsplash.com/photo-1477281765962-ef34e8bb0967?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Which is more fun: shopping or sports? Why?", "What is the most beautiful place in your country?", "Is your city bigger than the capital?"],
+                    sT: "Check Comparative and Superlative adjectives (bigger than, the most exciting).",
+                    wP: "Write a comparative review of two smartphones or video game consoles.",
+                    wE: "'The new X-Phone is more expensive than the Y-Phone, but it has the best camera on the market.'",
+                    wC: "130 - 160 words",
+                    wImg: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=400&q=80"
+                }
+            ],
+            "Book 3 (Evolve)": [
+                {
+                    unit: 1, topic: "Identity",
+                    hero: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Does your clothing show your identity?", "What teenage stereotypes exist today?", "How important is peer pressure?"],
+                    sT: "Assess fluency in discussing abstract concepts, identity vocabulary, and expressing complex opinions.",
+                    wP: "Write a descriptive essay or deep-dive blog about your personal style and what it represents.",
+                    wE: "'My style is an extension of my personality. While stereotypes suggest teens just follow trends, I choose clothes that...'",
+                    wC: "140 - 170 words",
+                    wImg: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 2, topic: "Celebrations",
+                    hero: "https://images.unsplash.com/photo-1533174000255-14f76269c581?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Could you tell me how people celebrate New Year here?", "Which festivals are the best to attend?", "Can you describe a traditional dish?"],
+                    sT: "Evaluate the use of relative clauses (who, which, where, that) to describe places and events.",
+                    wP: "Write an article describing a local festival using relative clauses.",
+                    wE: "'The festival, which takes place in August, is amazing. It is a time when families gather in the park where...'",
+                    wC: "140 - 170 words",
+                    wImg: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 3, topic: "Real Life Stories",
+                    hero: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Who is an inspiring person to you?", "What had they done before they became famous?", "Tell me a story of overcoming failure."],
+                    sT: "Check the Past Perfect (had done) vs Past Simple (did) to show sequencing in the past.",
+                    wP: "Write a short biography of a historical figure or idol using the Past Perfect.",
+                    wE: "'Before he won the championship, he had trained for ten years. He had never given up, even when...'",
+                    wC: "150 - 180 words",
+                    wImg: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 4, topic: "Reel Film",
+                    hero: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What film might you watch tonight?", "What was the plot like in the last movie you saw?", "What makes a good director?"],
+                    sT: "Assess modals of deduction/possibility (could, might, must be) and film vocabulary (plot, cast, script).",
+                    wP: "Write a professional film review for an online magazine using modals.",
+                    wE: "'The plot was confusing; the director could have explained the ending better. However, it might win an award for cinematography.'",
+                    wC: "150 - 180 words",
+                    wImg: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 5, topic: "Weather",
+                    hero: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Do you wish the weather were different right now?", "What happens during a natural disaster?", "Have you ever seen a severe storm?"],
+                    sT: "Evaluate 'Wish / If only + past' for present regrets (I wish it were sunny).",
+                    wP: "Write a dramatic news report about extreme weather using 'Wish/If only'.",
+                    wE: "'The storm destroyed the town. Residents said, \"If only we had evacuated sooner. We wish the government had warned us.\"'",
+                    wC: "150 - 180 words",
+                    wImg: "https://images.unsplash.com/photo-1605380062402-99da4593414a?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 6, topic: "In the News",
+                    hero: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Is the news always true? What is 'fake news'?", "How is advertising used today?", "Where is your smartphone made?"],
+                    sT: "Check the Passive Voice (is made, was invented, are used) to shift focus from the doer to the action.",
+                    wP: "Write a formal letter to a newspaper editor complaining about misleading ads using Passive Voice.",
+                    wE: "'Dear Editor, Teenagers are constantly targeted by fake ads. Products are falsely advertised on social media...'",
+                    wC: "160 - 190 words",
+                    wImg: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 7, topic: "Advice",
+                    hero: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What should you have done to get better grades last year?", "Give me some career advice.", "What is the best way to manage time?"],
+                    sT: "Assess Past Modals of regret/advice (should have done, could have been).",
+                    wP: "Write an essay or reflective article about time management and setting goals.",
+                    wE: "'Looking back, I should have organized my schedule better. Students ought to prioritize their tasks to avoid stress.'",
+                    wC: "160 - 190 words",
+                    wImg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 8, topic: "Motivation",
+                    hero: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What motivates you to study hard?", "If you feel stressed or tired, what do you do?", "What is your learning style?"],
+                    sT: "Evaluate academic vocabulary, discussing abstract psychological states, and zero/first conditionals for habits.",
+                    wP: "Write a reflective essay on mindfulness, motivation, and study styles.",
+                    wE: "'Motivation can decline when we face burnout. To combat this, practicing mindfulness is essential for maintaining focus...'",
+                    wC: "170 - 200 words",
+                    wImg: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 9, topic: "Skills",
+                    hero: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What would you do if you had a strange, magical talent?", "If you were the school principal, what would you change?", "Talk about a skill you'd like to learn."],
+                    sT: "Check the Second Conditional (If + past, would + base verb) for hypothetical situations.",
+                    wP: "Write an article about a personal skill or hypothetical scenario using the Second Conditional.",
+                    wE: "'If I possessed a photographic memory, studying would be effortless. I would learn multiple languages instantly.'",
+                    wC: "170 - 200 words",
+                    wImg: "https://images.unsplash.com/photo-1511216113906-8f56bbce50b7?auto=format&fit=crop&w=400&q=80"
+                }
+            ],
+            "Book 4 (Lead)": [
+                {
+                    unit: 1, topic: "Business",
+                    hero: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What type of intelligence is best for a CEO?", "What skills are needed for modern jobs?", "How important is leadership?"],
+                    sT: "Assess high-level vocabulary related to business, leadership, and a review of all major tenses.",
+                    wP: "Write a professional cover letter applying for a part-time job or internship.",
+                    wE: "'Dear Hiring Manager, I am writing to apply for the internship. I have developed strong leadership skills and am currently studying...'",
+                    wC: "180 - 220 words",
+                    wImg: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 2, topic: "Modern Life",
+                    hero: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Are you used to checking social media every day?", "How do you feel about screen time?", "What is the impact of AI?"],
+                    sT: "Evaluate 'be/get used to + gerund' (I am used to waking up early) and expressing complex argumentative opinions.",
+                    wP: "Write a formal for-and-against essay analyzing the impact of modern technology on teens.",
+                    wE: "'On the one hand, technology connects us globally. However, many teens are getting used to superficial interactions online...'",
+                    wC: "200 - 250 words",
+                    wImg: "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 3, topic: "Danger/Risk",
+                    hero: "https://images.unsplash.com/photo-1504567961542-e24d9439a724?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Have you ever been in a dangerous situation?", "Tell me a thrilling anecdote.", "Are extreme sports worth the risk?"],
+                    sT: "Check the fluid integration of narrative tenses (Past Simple, Past Continuous, Past Perfect) to tell a cohesive story.",
+                    wP: "Write a dramatic short story or anecdote about surviving a natural disaster or extreme risk.",
+                    wE: "'The wind was howling while we were hiking. Suddenly, the ground shook. We had never experienced an earthquake before...'",
+                    wC: "200 - 250 words",
+                    wImg: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 4, topic: "Universe",
+                    hero: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["If you could go to Mars, would you?", "What is the Universe like?", "Will humanity survive on other planets?"],
+                    sT: "Assess mixed conditionals and scientific/space vocabulary.",
+                    wP: "Write an informative essay or article about space exploration and the future of humanity.",
+                    wE: "'If space agencies had received more funding, we would already have a colony on Mars. Looking ahead, if we develop...'",
+                    wC: "200 - 250 words",
+                    wImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 5, topic: "Work/Business",
+                    hero: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["What are the current trends in the job market?", "How do you deal with delicate situations or conflict?", "Is remote work better?"],
+                    sT: "Evaluate professional register, reporting verbs, and structures for analyzing data/facts.",
+                    wP: "Write a professional, structured report analyzing facts and data on youth employment.",
+                    wE: "'This report outlines the current trends. Research indicates that remote work has increased by 40%, suggesting that adaptability is crucial.'",
+                    wC: "200 - 250 words",
+                    wImg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 6, topic: "Entertainment",
+                    hero: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Do you prefer blockbuster movies or indie books?", "Tell me about an interesting lecture or podcast you heard.", "What makes a performance great?"],
+                    sT: "Check collective nouns (audience, cast, staff) and advanced Passive Voice structures.",
+                    wP: "Write an entertainment review for a school magazine focusing on the production quality.",
+                    wE: "'The play was well-received by the audience. The sets were designed beautifully, and the cast's performance was highly praised.'",
+                    wC: "200 - 250 words",
+                    wImg: "https://images.unsplash.com/photo-1460881680858-30d872d5b530?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 7, topic: "The Media",
+                    hero: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["How do you feel about targeted advertising?", "Can you give me a warning about internet privacy?", "How do algorithms shape our opinions?"],
+                    sT: "Assess language of warning/advice and vocabulary related to digital media and statistics.",
+                    wP: "Write a detailed online comment or blog post analyzing a diagram about media consumption.",
+                    wE: "'As illustrated in the chart, youth engagement with traditional media has plummeted. I strongly warn users to be mindful of algorithmic bias.'",
+                    wC: "220 - 260 words",
+                    wImg: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 8, topic: "Crime",
+                    hero: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["Do you agree with current laws regarding cybercrime?", "What must have happened in this unsolved mystery?", "Are prisons effective?"],
+                    sT: "Evaluate past modals of deduction (must have been, can't have done) and legal/crime vocabulary.",
+                    wP: "Write an opinion essay on the justice system, crime prevention, and rehabilitation.",
+                    wE: "'In my view, the thief must have known the security code. However, addressing the root causes of crime is more important than strict punishment.'",
+                    wC: "220 - 260 words",
+                    wImg: "https://images.unsplash.com/photo-1533227260828-531c6b459867?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 9, topic: "Money Matters",
+                    hero: "https://images.unsplash.com/photo-1580519542036-ed47ce12220a?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["How do you negotiate a price?", "Why does money matter in today's society?", "What is the best way to save?"],
+                    sT: "Check cleft sentences for emphasis (It was the price that surprised me / What I need is more time) and advanced financial vocabulary.",
+                    wP: "Write a formal email regarding a financial dispute, scholarship, or refund request.",
+                    wE: "'To whom it may concern, What concerns me most is the hidden fee. It was the lack of transparency that prompted this email...'",
+                    wC: "220 - 260 words",
+                    wImg: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80"
+                }
+            ]
+        };
+
+        // DOM Elements
+        const bookNav = document.getElementById('book-nav');
+        const unitNav = document.getElementById('unit-nav');
+        const feedContainer = document.getElementById('feed-container');
+        
+        let currentBookStr = Object.keys(curriculum)[0];
+
+        function init() {
+            // Render Book buttons
+            Object.keys(curriculum).forEach((bookName, index) => {
+                const btn = document.createElement('button');
+                btn.className = `btn btn-book ${index === 0 ? 'active' : ''}`;
+                btn.innerText = bookName;
+                btn.onclick = () => selectBook(bookName, btn);
+                bookNav.appendChild(btn);
+            });
+            
+            // Load first book's units initially
+            renderUnits(currentBookStr);
+        }
+
+        function selectBook(bookName, btnElement) {
+            currentBookStr = bookName;
+            document.querySelectorAll('.btn-book').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderUnits(bookName);
+        }
+
+        function renderUnits(bookName) {
+            unitNav.innerHTML = '';
+            feedContainer.style.display = 'none';
+
+            curriculum[bookName].forEach((unitData, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-unit';
+                btn.innerText = `Unit ${unitData.unit}: ${unitData.topic}`;
+                btn.onclick = () => displayUnit(unitData, btn, bookName);
+                unitNav.appendChild(btn);
+                
+                // Auto-click the first unit when changing books
+                if(index === 0) {
+                    displayUnit(unitData, btn, bookName);
+                }
+            });
+        }
+
+        function displayUnit(data, btnElement, bookName) {
+            document.querySelectorAll('.btn-unit').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // Header Elements
+            document.getElementById('trace-badge').innerText = `${bookName} > Unit ${data.unit}`;
+            document.getElementById('unit-title').innerText = data.topic;
+            document.getElementById('unit-hero').src = data.hero;
+
+            // Speaking (The Mic is On)
+            let speakHTML = `<ul class="q-list">`;
+            data.sQ.forEach(q => speakHTML += `<li>${q}</li>`);
+            speakHTML += `</ul>
+                          <div class="teacher-notes">
+                              <strong>👨‍🏫 Evaluator Note:</strong> ${data.sT}
+                          </div>`;
+            document.getElementById('speak-content').innerHTML = speakHTML;
+
+            // Writing (The Feed)
+            let writeHTML = `
+                <div class="write-split">
+                    <div class="write-text">
+                        <p>${data.wP}</p>
+                        <span class="word-count-badge">🎯 Word Count Target: ${data.wC}</span>
+                        <span class="example-quote">Example: ${data.wE}</span>
+                    </div>
+                    <div class="write-img-container">
+                        <img src="${data.wImg}" alt="Visual prompt for writing task">
+                    </div>
+                </div>
+            `;
+            document.getElementById('write-content').innerHTML = writeHTML;
+
+            // Show UI
+            feedContainer.style.display = 'block';
+        }
+
+        // Initialize App
+        window.onload = init;
+    </script>
+</body>
+</html>

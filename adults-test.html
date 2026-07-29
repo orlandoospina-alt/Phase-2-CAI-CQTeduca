@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Picture - Corporate ESL Placement Exam</title>
+    <style>
+        /* CSS3: Corporate / Modern Lifestyle Aesthetic */
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+        :root {
+            --bg-body: #F4F7F9;
+            --bg-sidebar: #0B1B3D; /* Deep Navy */
+            --bg-sidebar-hover: #162C5B;
+            --text-main: #333333; /* Charcoal */
+            --text-light: #7A8B99;
+            --text-sidebar: #E2E8F0;
+            --accent-blue: #0056B3; /* Corporate Blue */
+            --accent-gold: #D4AF37; /* Professional Gold */
+            --white: #FFFFFF;
+            --border-light: #E0E6ED;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR NAVIGATION */
+        .sidebar {
+            width: 320px;
+            background-color: var(--bg-sidebar);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .sidebar-header h1 {
+            color: var(--white);
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-header p {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            margin-top: 8px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-books {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-units {
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            flex: 1;
+        }
+
+        /* Scrollbar for sidebar */
+        .nav-units::-webkit-scrollbar { width: 6px; }
+        .nav-units::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .btn {
+            background: transparent;
+            color: var(--text-sidebar);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 12px 15px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-family: inherit;
+        }
+
+        .btn:hover {
+            background-color: var(--bg-sidebar-hover);
+        }
+
+        .btn-book {
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-book.active {
+            background-color: var(--accent-blue);
+            color: var(--white);
+            border-color: var(--accent-blue);
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.4);
+        }
+
+        .btn-unit {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-left: 3px solid transparent;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .btn-unit.active {
+            background-color: rgba(255,255,255,0.05);
+            border-left-color: var(--accent-gold);
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        /* MAIN CONTENT AREA */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            background-color: var(--bg-body);
+        }
+
+        .dashboard-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        /* HEADER & CEFR TRACEABILITY */
+        .header-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .traceability-badge {
+            background-color: var(--bg-sidebar);
+            color: var(--white);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .cefr-badge {
+            background-color: var(--accent-gold);
+            color: var(--bg-sidebar);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .unit-title {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--bg-sidebar);
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 15px;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        /* TASK CARDS */
+        .task-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid;
+        }
+
+        .card.speaking { border-top-color: var(--accent-blue); }
+        .card.writing { border-top-color: var(--accent-gold); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .speaking .card-header { color: var(--accent-blue); }
+        .writing .card-header { color: var(--accent-gold); }
+
+        .task-content {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-main);
+        }
+
+        .task-content p { margin-bottom: 15px; }
+
+        .evaluator-notes {
+            background-color: #F8FAFC;
+            border-left: 3px solid var(--text-light);
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #555;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .evaluator-notes strong { color: var(--bg-sidebar); }
+
+        .word-count {
+            display: inline-block;
+            background-color: #FFF9E6;
+            color: #B8860B;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            border: 1px solid #F0E6D2;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; box-shadow: none; }
+            .nav-books { flex-direction: row; overflow-x: auto; white-space: nowrap; padding: 10px; }
+            .nav-units { flex-direction: row; overflow-x: auto; max-height: 70px; padding: 10px; border-bottom: 1px solid var(--border-light); }
+            .btn-unit { border-left: none; border-bottom: 3px solid transparent; border-radius: 6px 6px 0 0; }
+            .btn-unit.active { border-left: none; border-bottom-color: var(--accent-gold); }
+            .main-content { padding: 20px; }
+            .hero-img { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>The Big Picture</h1>
+            <p>Corporate Placement Exam</p>
+        </div>
+        <div class="nav-books" id="book-nav"></div>
+        <div class="nav-units" id="unit-nav"></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <div class="dashboard-container" id="dashboard">
+            <div class="header-meta">
+                <span class="traceability-badge" id="trace-badge">Book 1 > Unit 1</span>
+                <span class="cefr-badge" id="cefr-badge">CEFR A1</span>
+            </div>
+            
+            <h2 class="unit-title" id="unit-title">Welcome</h2>
+            <img id="unit-hero" class="hero-img" src="" alt="Corporate Theme">
+
+            <div class="task-grid">
+                <!-- SPEAKING TASK -->
+                <div class="card speaking">
+                    <div class="card-header">🗣️ Professional Interaction (Speaking)</div>
+                    <div class="task-content" id="speak-content"></div>
+                </div>
+
+                <!-- WRITING TASK -->
+                <div class="card writing">
+                    <div class="card-header">✉️ Business & Social Correspondence (Writing)</div>
+                    <div class="task-content" id="write-content"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // CURRICULUM DATA (Books 1-4, 46 Units Total)
+        const curriculum = {
+            "Book 1 (Breakthrough)": {
+                level: "A1",
+                units: [
+                    { u: 1, title: "Welcome", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
+                      s: "What is your name and nationality? Can you provide your contact info?",
+                      w: "Fill in a registration form with your professional details.",
+                      wc: "30-50 words", e: "Check basic greetings, 'to be' verb, and numbers/spelling for contact info." },
+                    { u: 2, title: "Work", img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80",
+                      s: "What is your job? What objects are on your desk?",
+                      w: "Write a short professional bio using 'be' and possessive adjectives.",
+                      wc: "40-60 words", e: "Assess vocabulary for office objects and possessive adjectives (my, his, our)." },
+                    { u: 3, title: "Home", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+                      s: "Where do you live? Tell me about your family.",
+                      w: "Write a short description of your house using position of adjectives.",
+                      wc: "40-60 words", e: "Evaluate adjective placement (a big house) and basic family vocabulary." },
+                    { u: 4, title: "Good things", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+                      s: "How much is this? Can I order a coffee?",
+                      w: "Write a short website post about your favorite restaurant.",
+                      wc: "50-70 words", e: "Check functional language for buying/ordering and basic transactional interactions." },
+                    { u: 5, title: "Daily life", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+                      s: "What is your typical workday like? When do you start?",
+                      w: "Write a work log of your daily activities using frequency adverbs.",
+                      wc: "50-70 words", e: "Assess Present Simple for routines and adverbs of frequency (usually, always)." },
+                    { u: 6, title: "Places", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+                      s: "How do I get to the bank? Is there a hotel nearby?",
+                      w: "Write a description of your neighborhood for a visitor.",
+                      wc: "60-80 words", e: "Evaluate 'There is/are', prepositions of place, and basic directions." },
+                    { u: 7, title: "Communication", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
+                      s: "How is the weather today? What are you working on right now?",
+                      w: "Write a short email update using the Present Continuous.",
+                      wc: "60-80 words", e: "Check Present Continuous for actions happening at the moment." },
+                    { u: 8, title: "Big Day", img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80",
+                      s: "When is your birthday? Tell me about a past celebration.",
+                      w: "Write an email about a recent event using the Past Simple.",
+                      wc: "60-80 words", e: "Assess Past Simple of regular and common irregular verbs (went, had)." },
+                    { u: 9, title: "Art", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
+                      s: "How does this painting make you feel? Describe it.",
+                      w: "Describe a photo or work of art using past time expressions.",
+                      wc: "70-90 words", e: "Evaluate past time expressions (yesterday, last year) and descriptive vocabulary." },
+                    { u: 10, title: "Going out", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+                      s: "What are your plans for the weekend? Can you go to the cinema?",
+                      w: "Write an invitation email for a night out.",
+                      wc: "70-90 words", e: "Check functional language for invitations and future arrangements." }
+                ]
+            },
+            "Book 2 (Waystage)": {
+                level: "A2",
+                units: [
+                    { u: 1, title: "World", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+                      s: "Introduce yourself. What are your most important possessions?",
+                      w: "Write a personal profile for an international website.",
+                      wc: "80-100 words", e: "Check extended self-introductions and descriptive adjectives." },
+                    { u: 2, title: "My life", img: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell me about your family and your interests.",
+                      w: "Complete a personal profile including family and routine.",
+                      wc: "80-100 words", e: "Assess fluency in discussing routines and family relationships." },
+                    { u: 3, title: "Days", img: "https://images.unsplash.com/photo-1506784951206-b9623471d471?auto=format&fit=crop&w=800&q=80",
+                      s: "What do you suggest we do on Saturday? Sound enthusiastic.",
+                      w: "Write a blog post about your favorite day of the week.",
+                      wc: "90-110 words", e: "Evaluate making suggestions (Let's, How about) and expressing enthusiasm." },
+                    { u: 4, title: "Home life", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+                      s: "Ask for information about a rental apartment. Give directions.",
+                      w: "Write a detailed description of your home for a rental site.",
+                      wc: "90-110 words", e: "Check asking for information and giving complex directions." },
+                    { u: 5, title: "Shopping", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
+                      s: "What do you think of these clothes? Can you describe your style?",
+                      w: "Write a description of an outfit in a photo using 'can' and 'continuous'.",
+                      wc: "100-120 words", e: "Assess vocabulary for clothing and giving opinions." },
+                    { u: 6, title: "Outdoors", img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
+                      s: "Do you like sports? Why or why not?",
+                      w: "Write messages to a group chat to arrange a sport activity.",
+                      wc: "100-120 words", e: "Check giving reasons and organizing plans via text/chat formats." },
+                    { u: 7, title: "On the move", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+                      s: "How was your last vacation? How did you travel?",
+                      w: "Write an informal email about a trip using the Past Simple.",
+                      wc: "110-130 words", e: "Evaluate narrative sequencing in the past." },
+                    { u: 8, title: "News", img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell me about a major life event. Respond to my news.",
+                      w: "Write a short biography of a person you admire.",
+                      wc: "110-130 words", e: "Check functional language for reacting to news (That's great! Oh no!)." },
+                    { u: 9, title: "Food", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
+                      s: "What should I eat to stay healthy? How do you order in a restaurant?",
+                      w: "Write a restaurant review using countable/uncountable nouns.",
+                      wc: "120-140 words", e: "Assess food vocabulary and quantifiers (some, any, much, many)." },
+                    { u: 10, title: "Technology", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
+                      s: "Which device is better? What are you going to buy next?",
+                      w: "Write an online post comparing two electronic gadgets.",
+                      wc: "120-140 words", e: "Check comparatives/superlatives and 'going to' for future plans." },
+                    { u: 11, title: "Work life", img: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=800&q=80",
+                      s: "Explain your job responsibilities. Can you make an offer?",
+                      w: "Write a formal email requesting info or making a request.",
+                      wc: "130-150 words", e: "Evaluate professional register, requests, and offers (Can I help? Would you like?)." },
+                    { u: 12, title: "Live fully", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                      s: "What are your recommendations for a good life? How do you feel?",
+                      w: "Create an information flyer for a wellness event.",
+                      wc: "130-150 words", e: "Check modal verbs for advice (should, shouldn't)." }
+                ]
+            },
+            "Book 3 (Threshold)": {
+                level: "B1",
+                units: [
+                    { u: 1, title: "Communication", img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
+                      s: "How do you show emotions? Check if I understand you.",
+                      w: "Write a professional email and a personal profile.",
+                      wc: "140-160 words", e: "Assess checking for understanding and expressing feelings clearly." },
+                    { u: 2, title: "Nature", img: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell a story about an animal. How did you react?",
+                      w: "Write an informal message about a trip to a natural park.",
+                      wc: "140-160 words", e: "Evaluate storytelling combining Past Simple and Past Continuous." },
+                    { u: 3, title: "Icons", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+                      s: "Do you agree that modern buildings are better? Why?",
+                      w: "Write a blog post about a famous person or building.",
+                      wc: "150-170 words", e: "Check expressing agreement/disagreement respectfully in a professional context." },
+                    { u: 4, title: "Learning", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+                      s: "What are your future career plans? What must you do?",
+                      w: "Write a formal email for an educational course.",
+                      wc: "150-170 words", e: "Assess modals of obligation (must, have to) and future intentions." },
+                    { u: 5, title: "Getting help", img: "https://images.unsplash.com/photo-1516542076529-1ea3854896f2?auto=format&fit=crop&w=800&q=80",
+                      s: "What should I do if I have a headache? Give predictions.",
+                      w: "Write an opinion essay on health and technology.",
+                      wc: "160-180 words", e: "Evaluate making predictions with 'will' and giving strong advice." },
+                    { u: 6, title: "Changes", img: "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=80",
+                      s: "Have you ever changed your personality? Compare yourself now and then.",
+                      w: "Write a comment for a web forum about life changes.",
+                      wc: "160-180 words", e: "Check 'used to' vs Present Simple for contrasting past and present." },
+                    { u: 7, title: "Homelife", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell me about your city features. What have you done today?",
+                      w: "Create a promotional flyer for a local city project.",
+                      wc: "170-190 words", e: "Assess Present Perfect for recent actions and life experiences." },
+                    { u: 8, title: "Technology", img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+                      s: "Do you prefer using a car or a bike? Give your opinion.",
+                      w: "Write a for-and-against essay about modern transport.",
+                      wc: "170-190 words", e: "Evaluate structuring arguments (on the one hand, on the other hand)." },
+                    { u: 9, title: "Healthy", img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80",
+                      s: "Give me a warning or a promise about health. Is it enough?",
+                      w: "Write an invitation for a corporate fitness event.",
+                      wc: "180-200 words", e: "Check language for promises and warnings (If you don't..., you will...)." },
+                    { u: 10, title: "Money", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+                      s: "If you were rich, what would you buy? Negotiate a price.",
+                      w: "Write a formal email regarding a financial matter.",
+                      wc: "180-200 words", e: "Assess Second Conditional for hypothetical situations and negotiation language." },
+                    { u: 11, title: "Self", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+                      s: "I wish I could travel more. Give me suggestions.",
+                      w: "Write an article about personality and career success.",
+                      wc: "190-210 words", e: "Evaluate 'wish' for present regrets and offering complex suggestions." },
+                    { u: 12, title: "Entertain", img: "https://images.unsplash.com/photo-1470229722913-7c090be18b54?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell me what the manager said using reported speech.",
+                      w: "Write a review of a concert or movie.",
+                      wc: "190-210 words", e: "Check Reported Speech accuracy (tense backshifting)." }
+                ]
+            },
+            "Book 4 (Vantage)": {
+                level: "B1+/B2",
+                units: [
+                    { u: 1, title: "Connected", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
+                      s: "Ask me a subject and an object question about my work.",
+                      w: "Create a promotional poster for a social campaign.",
+                      wc: "200-220 words", e: "Assess formulation of complex subject/object questions." },
+                    { u: 2, title: "Stories", img: "https://images.unsplash.com/photo-1455390582262-044cdead2708?auto=format&fit=crop&w=800&q=80",
+                      s: "Do you prefer books or movies? Agree or disagree with me.",
+                      w: "Describe a historical photo and narrate what happened.",
+                      wc: "200-220 words", e: "Evaluate narrative tenses (Past Perfect vs Past Continuous)." },
+                    { u: 3, title: "Art", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
+                      s: "How do you respond to street art? Use extreme adjectives.",
+                      w: "Write a professional review of an art exhibition.",
+                      wc: "210-230 words", e: "Check extreme adjectives (exhausted, freezing) vs gradable adjectives." },
+                    { u: 4, title: "World", img: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=800&q=80",
+                      s: "Discuss environmental issues. What have we been doing?",
+                      w: "Write a report on a local environmental problem.",
+                      wc: "210-230 words", e: "Assess Present Perfect Continuous for ongoing past-to-present actions." },
+                    { u: 5, title: "Connections", img: "https://images.unsplash.com/photo-1569154941061-e231b4732ef1?auto=format&fit=crop&w=800&q=80",
+                      s: "Explain this travel diagram. Sound polite.",
+                      w: "Write a for-and-against essay on international travel.",
+                      wc: "220-240 words", e: "Evaluate polite/indirect questions and structured argumentation." },
+                    { u: 6, title: "Small world", img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+                      s: "What are your recommendations for a holiday? What must happen?",
+                      w: "Write a blog post about a global celebration.",
+                      wc: "220-240 words", e: "Check advanced modals of deduction and recommendation." },
+                    { u: 7, title: "Me & my things", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
+                      s: "Tell me about your possessions using vague language.",
+                      w: "Write a summary of an article about consumerism.",
+                      wc: "230-250 words", e: "Assess fluency using vague language (stuff, kind of, sort of)." },
+                    { u: 8, title: "Active", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+                      s: "Listen to my instructions. Sound interested.",
+                      w: "Write a formal email using reported speech structures.",
+                      wc: "230-250 words", e: "Evaluate active listening techniques (Really?, That's interesting) and reported speech." },
+                    { u: 9, title: "Rules", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+                      s: "Ask for permission politely. What are the workspace rules?",
+                      w: "Write an opinion essay on privacy and digital laws.",
+                      wc: "240-260 words", e: "Check advanced permission structures (Would you mind if I...)." },
+                    { u: 10, title: "Insights", img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+                      s: "Complain about a product. Sound concerned.",
+                      w: "Write a description of a technical process using passives.",
+                      wc: "240-260 words", e: "Assess polite complaining and complex Passive Voice." },
+                    { u: 11, title: "Market", img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80",
+                      s: "Ask for permission to leave. Sound polite.",
+                      w: "Write a formal report on global market trends.",
+                      wc: "250-280 words", e: "Evaluate professional diplomatic language and formal report structures." },
+                    { u: 12, title: "Memories", img: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
+                      s: "If you had stayed at your first job, what would have happened?",
+                      w: "Write a personal anecdote using perfect tenses.",
+                      wc: "250-280 words", e: "Check Third Conditional (If I had known, I would have...) for past regrets." }
+                ]
+            }
+        };
+
+        const bookNav = document.getElementById('book-nav');
+        const unitNav = document.getElementById('unit-nav');
+        const dashboard = document.getElementById('dashboard');
+        
+        let currentBookStr = Object.keys(curriculum)[0];
+
+        function init() {
+            Object.keys(curriculum).forEach((bookName, index) => {
+                const btn = document.createElement('button');
+                btn.className = `btn btn-book ${index === 0 ? 'active' : ''}`;
+                btn.innerText = bookName;
+                btn.onclick = () => selectBook(bookName, btn);
+                bookNav.appendChild(btn);
+            });
+            renderUnits(currentBookStr);
+        }
+
+        function selectBook(bookName, btnElement) {
+            currentBookStr = bookName;
+            document.querySelectorAll('.btn-book').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            renderUnits(bookName);
+        }
+
+        function renderUnits(bookName) {
+            unitNav.innerHTML = '';
+            dashboard.style.display = 'none';
+
+            curriculum[bookName].units.forEach((unitData, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-unit';
+                btn.innerText = `Unit ${unitData.u}: ${unitData.title}`;
+                btn.onclick = () => displayUnit(unitData, btn, bookName);
+                unitNav.appendChild(btn);
+                
+                if(index === 0) displayUnit(unitData, btn, bookName);
+            });
+        }
+
+        function displayUnit(data, btnElement, bookName) {
+            document.querySelectorAll('.btn-unit').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const cefrLevel = curriculum[bookName].level;
+
+            // Header Meta
+            document.getElementById('trace-badge').innerText = `${bookName} > Unit ${data.u}`;
+            document.getElementById('cefr-badge').innerText = `CEFR ${cefrLevel}`;
+            document.getElementById('unit-title').innerText = data.title;
+            document.getElementById('unit-hero').src = data.img;
+
+            // Speaking
+            document.getElementById('speak-content').innerHTML = `
+                <p><strong>Prompt:</strong> ${data.s}</p>
+                <div class="evaluator-notes">
+                    <strong>👨‍💼 Evaluator Focus:</strong> ${data.e}
+                </div>
+            `;
+
+            // Writing
+            document.getElementById('write-content').innerHTML = `
+                <p><strong>Task:</strong> ${data.w}</p>
+                <div class="word-count">📋 Target: ${data.wc}</div>
+            `;
+
+            dashboard.style.display = 'block';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

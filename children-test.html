@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESL Placement Exam - Open Day Series</title>
+    <style>
+        /* CSS3 STYLES */
+        :root {
+            --bg-color: #E0F7FA;
+            --primary-blue: #29B6F6;
+            --primary-blue-dark: #0288D1;
+            --primary-yellow: #FFEE58;
+            --primary-yellow-dark: #FBC02D;
+            --primary-green: #66BB6A;
+            --primary-green-dark: #388E3C;
+            --primary-purple: #AB47BC;
+            --text-color: #37474F;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        header {
+            background-color: var(--white);
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--primary-blue-dark);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* NAVIGATION */
+        .nav-books, .nav-units {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+            text-transform: uppercase;
+        }
+
+        .btn-book {
+            background-color: var(--primary-yellow);
+            color: #333;
+            box-shadow: 0 6px 0 var(--primary-yellow-dark);
+        }
+
+        .btn-book:active, .btn-book.active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--primary-yellow-dark);
+            background-color: var(--primary-yellow-dark);
+        }
+
+        .btn-unit {
+            background-color: var(--primary-green);
+            color: var(--white);
+            box-shadow: 0 6px 0 var(--primary-green-dark);
+            font-size: 1rem;
+            padding: 10px 20px;
+            display: none; 
+        }
+
+        .btn-unit.visible {
+            display: inline-block;
+        }
+
+        .btn-unit:active, .btn-unit.active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--primary-green-dark);
+            background-color: var(--primary-green-dark);
+        }
+
+        /* CONTENT DISPLAY */
+        #content-area {
+            width: 100%;
+            max-width: 900px;
+            background-color: var(--white);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 0 rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .unit-header {
+            color: var(--primary-blue-dark);
+            font-size: 2.2rem;
+            border-bottom: 4px dashed var(--primary-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Hero Image */
+        .hero-img {
+            width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            object-fit: cover;
+            border: 4px solid #eceff1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Task Sections */
+        .section {
+            background-color: #F5F5F5;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 8px solid;
+            position: relative;
+        }
+
+        .section h3 {
+            text-align: left;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.6rem;
+        }
+
+        .speaking {
+            border-color: var(--primary-blue);
+            background-color: #E1F5FE;
+        }
+        
+        .speaking h3 { color: var(--primary-blue-dark); }
+
+        .writing {
+            border-color: var(--primary-yellow-dark);
+            background-color: #FFFDE7;
+        }
+
+        .writing h3 { color: #F57F17; }
+
+        /* Task Specific Content */
+        .task-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .question-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .question-list li {
+            margin-bottom: 10px;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .question-list li::before {
+            content: '💬';
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .teacher-notes {
+            background-color: #F3E5F5;
+            border: 2px dashed var(--primary-purple);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #4A148C;
+            margin-top: 15px;
+        }
+
+        .task-image {
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #ccc;
+            margin: 15px 0;
+            align-self: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quote {
+            background-color: rgba(255,255,255,0.7);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+            border-left: 4px solid var(--primary-yellow-dark);
+        }
+
+        @media (min-width: 768px) {
+            .task-split {
+                display: flex;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            .task-split .text-col {
+                flex: 1;
+            }
+            .task-split .img-col {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌟 Open Day Series 🌟</h1>
+        <h2>ESL Placement Exam Explorer</h2>
+        <p>For young learners (Ages 7-12)</p>
+    </header>
+
+    <nav class="nav-books" id="book-nav"></nav>
+    <nav class="nav-units" id="unit-nav"></nav>
+
+    <main id="content-area">
+        <h2 class="unit-header" id="unit-title">Select a Unit</h2>
+        <img id="unit-image" class="hero-img" src="" alt="Unit Theme">
+
+        <div class="section speaking">
+            <h3>🗣️ Let's Talk! (Speaking)</h3>
+            <div class="task-content" id="speaking-task"></div>
+        </div>
+
+        <div class="section writing">
+            <h3>✍️ Let's Write! (Writing)</h3>
+            <div class="task-content" id="writing-task"></div>
+        </div>
+    </main>
+
+    <script>
+        const curriculum = {
+            "Book 1": [
+                { 
+                    unit: 1, topic: "Friends", heroImg: "https://images.unsplash.com/photo-1519098901909-b1553a1190af?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Hello! What is your name?</li>
+                            <li>How old are you?</li>
+                            <li>What is your favorite color?</li>
+                            <li>Tell me about your best friend. What is their name?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess basic greetings, understanding of 'Wh-' questions, and present tense 'to be' (I am, He/She is).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the children in the picture. Write 3 sentences introducing them and their colors.</p>
+                                <span class='quote'>Example: 'He is Tom. His favorite color is green.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Two kids smiling">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 2, topic: "Family", heroImg: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Who lives in your house with you?</li>
+                            <li>Is your dad tall or short?</li>
+                            <li>Do you have brothers or sisters?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check family vocabulary (mother, father, brother). Listen for correct use of 'He/She is' and basic adjectives.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the family photo. Write 3 sentences to describe the family members.</p>
+                                <span class='quote'>Example: 'He is my dad. She is my sister. We are happy.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1596066190600-3af9aadaea1f?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Family of four">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 3, topic: "House", heroImg: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is your favorite room in your house?</li>
+                            <li>Is there a sofa in your kitchen?</li>
+                            <li>Look at the picture. Where is the cat?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Focus on prepositions of place (in, on, under) and 'There is / There are'.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the room. Complete the sentences to describe where things are.</p>
+                                <span class='quote'>1. There is a lamp ___ the table.<br>2. The cat is ___ the sofa.</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cat on a living room sofa">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 4, topic: "Bedroom", heroImg: "https://images.unsplash.com/photo-1555505019-8c3f1c4aba5f?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Do you like your bedroom?</li>
+                            <li>What toys do you have in your room?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate vocabulary for furniture/toys and the use of 'I have' and 'I like'.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at this messy bedroom! Write 3 sentences about what you see using 'I see a...' or 'There is a...'.</p>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1595511890410-3b8dc237a537?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kid's bedroom with toys">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 5, topic: "Farm", heroImg: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is your favorite farm animal?</li>
+                            <li>Can a cow fly? What can it do?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess the modal verb 'can / can't' for abilities, and basic animal vocabulary.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Choose one animal from the picture. Write about what it is and what it can/cannot do.</p>
+                                <span class='quote'>'It is a horse. It can run fast. It cannot fly.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Farm animals in a field">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 6, topic: "Backyard", heroImg: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Are you scared of bugs?</li>
+                            <li>Does a spider have 6 legs?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Listen for the verb 'to have' (It has/doesn't have) and numbers/body parts (wings, legs).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Describe the bug in the picture. Write 2 sentences.</p>
+                                <span class='quote'>'This is a bee. It is yellow and black. It has wings.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1552726710-4bc4644026dc?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A bee on a flower">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 7, topic: "Dressing Up", heroImg: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What are you wearing today?</li>
+                            <li>Look at the boy in the picture. What is he wearing?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check present continuous for clothes (I am wearing) and color+noun word order.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the child in the photo. Write what they are wearing.</p>
+                                <span class='quote'>'He is wearing a yellow jacket and a red hat.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1519238386389-9800e28f1cc6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Child wearing colorful winter clothes">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 8, topic: "Park", heroImg: "https://images.unsplash.com/photo-1603827457577-609e6f42a45e?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What do you like to do at the park?</li>
+                            <li>Look at the picture. What is the boy doing?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate Present Continuous for actions happening now (running, jumping, playing).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write 3 sentences about what is happening in the picture using '-ing' words.</p>
+                                <span class='quote'>'The girl is jumping. The boy is kicking a ball.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids playing in a park">
+                            </div>
+                        </div>
+                    `
+                }
+            ],
+            "Book 2": [
+                { 
+                    unit: 1, topic: "School", heroImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is your favorite subject at school?</li>
+                            <li>When do you have Math?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check days of the week, school subjects, and prepositions of time (on Monday).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the blank timetable. Write a short school schedule for Monday.</p>
+                                <span class='quote'>'On Monday, I have Math at 9:00. Then, I have Art.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Notebook and pencils on desk">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 2, topic: "Time", heroImg: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What time do you wake up every day?</li>
+                            <li>What do you do in the morning before school?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate telling time, daily routines (Present Simple), and sequencing words (first, then).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write your morning routine using sequencing words.</p>
+                                <span class='quote'>'First, I wake up at 7:00. Next, I brush my teeth.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1533727788540-377ebaf1bbbb?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Alarm clock and breakfast">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 3, topic: "Market", heroImg: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Do you like going to the supermarket?</li>
+                            <li>Look at the picture. Are there any apples?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check the use of quantifiers 'some' and 'any' with countable/uncountable nouns.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the fruit stand. Write a list of what they have and don't have using 'some' and 'any'.</p>
+                                <span class='quote'>'They have some bananas. They don't have any oranges.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Fruit stand at a market">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 4, topic: "Lunch", heroImg: "https://images.unsplash.com/photo-1563805042-7684c8a9e9cb?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What do you usually eat for lunch?</li>
+                            <li>Would you like some juice?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess polite requests using 'Would you like...?' and 'I would like...'.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write a polite order for lunch based on the picture.</p>
+                                <span class='quote'>'Hello, I would like a burger and some fries, please.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Burger, fries, and a drink">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 5, topic: "Animal Rescue", heroImg: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Which animal is bigger: a dog or an elephant?</li>
+                            <li>Look at the picture. Which animal is taller?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Focus entirely on comparative adjectives (-er than, more ... than).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Compare the two animals in the picture. Write 2 sentences.</p>
+                                <span class='quote'>'The giraffe is taller than the elephant.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1517825738774-7de9363ef735?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Giraffe and elephant side by side">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 6, topic: "Wild Animals", heroImg: "https://images.unsplash.com/photo-1550358864-518f202c02ba?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is the scariest animal you know?</li>
+                            <li>Where does a shark live?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate superlative adjectives (the biggest, the fastest, the most dangerous).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write about the animal in the picture using superlatives.</p>
+                                <span class='quote'>'The cheetah is the fastest animal in the world.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-153ce27258079-0dbf88c3a817?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cheetah running">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 7, topic: "Try This!", heroImg: "https://images.unsplash.com/photo-1515523110800-9415d13b84a8?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What sports do you enjoy playing?</li>
+                            <li>Do you like swimming?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check gerunds after verbs of preference (enjoy playing, like swimming).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the sports. Write 3 sentences about what you enjoy.</p>
+                                <span class='quote'>'I enjoy playing soccer. I am good at running fast.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids playing basketball and soccer">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 8, topic: "Swimming", heroImg: "https://images.unsplash.com/photo-1519315901367-f34f915de326?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What must you do at the pool? (e.g., take a shower)</li>
+                            <li>What mustn't you do? (e.g., run)</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate the modal verbs 'must' and 'mustn't' for rules.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the pool picture. Write 3 safety rules.</p>
+                                <span class='quote'>'1. You must wear a swim cap.<br>2. You mustn't run.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1572097561845-6677f24072f5?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Indoor swimming pool">
+                            </div>
+                        </div>
+                    `
+                }
+            ],
+            "Book 3": [
+                { 
+                    unit: 1, topic: "Adventure", heroImg: "https://images.unsplash.com/photo-1504280390227-331bf6ebf0c0?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>How about going climbing this weekend?</li>
+                            <li>Are you good at hiking?</li>
+                            <li>Look at this gear. Which is more important: a helmet or a backpack? Why?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess making suggestions (How about + -ing) and complex comparatives (more/less important).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the adventure gear. Compare them using 'more' or 'less'.</p>
+                                <span class='quote'>'The helmet is more important than the water bottle for climbing.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Rock climbing gear on a rock">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 2, topic: "Seasons", heroImg: "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is the weather like today?</li>
+                            <li>What do you usually do in the winter?</li>
+                            <li>What do you want to do next summer?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check present simple for habits (in the winter I...) vs present continuous for current weather.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Describe the season in the picture and the clothes you need.</p>
+                                <span class='quote'>'It is winter. It is snowing. You need a heavy coat and gloves.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Snowy winter landscape">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 3, topic: "Town", heroImg: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What places are in your town? (e.g., hospital, park)</li>
+                            <li>How do I get from the school to the park?</li>
+                            <li>What does your street look like?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate prepositions of movement (past, through) and imperative verbs for giving directions (go straight, turn left).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the street. Write directions to get to the yellow building.</p>
+                                <span class='quote'>'Go straight down the street. Turn left at the corner. It is on the right.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1518398436585-84639a061eb6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A colorful city street intersection">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 4, topic: "Past", heroImg: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Where were you yesterday afternoon?</li>
+                            <li>Was your last birthday fun? What did you do?</li>
+                            <li>Look at this picture. Do you think this place was beautiful a long time ago?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess the verb 'to be' in the past tense (was/were, wasn't/weren't).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write about this famous place in the past. Use 'was' and 'were'.</p>
+                                <span class='quote'>'It was a big castle. The walls were very tall and strong.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1524230572899-a752b38b584e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Ancient stone ruins or castle">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 5, topic: "Chores", heroImg: "https://images.unsplash.com/photo-1584820927498-cafe4c1064db?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What did you do to help at home yesterday?</li>
+                            <li>Did you wash the dishes or clean your room?</li>
+                            <li>What chore do you hate doing?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate the Past Simple of regular and irregular verbs (cleaned, made, washed, took).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write a short note to your mom about the chores you finished today.</p>
+                                <span class='quote'>'Mom, I cleaned my room and I washed the dog. I didn't take out the trash.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cleaning supplies in a bucket">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 6, topic: "Health", heroImg: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Pretend you are a doctor. I have a headache. What should I do?</li>
+                            <li>Should I eat a lot of candy if my stomach hurts?</li>
+                            <li>What do you do when you catch a cold?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check the modal verb 'should / shouldn't' for giving advice, and basic illness vocabulary.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the sick boy. Write 2 sentences giving him advice.</p>
+                                <span class='quote'>'You have a fever. You should drink water and you shouldn't go outside.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1584820926715-288258514936?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A person looking sick with a thermometer">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 7, topic: "Family Stories", heroImg: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Could you read when you were five years old?</li>
+                            <li>Could your grandfather drive a car when he was young?</li>
+                            <li>Tell me about something you do very well (e.g., I sing beautifully).</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess 'could / couldn't' for past ability, and the use of adverbs of manner (quickly, well, badly).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write about an older person in your family using 'could' and an adverb (like 'fast' or 'well').</p>
+                                <span class='quote'>'When my grandpa was young, he could run very fast. He played soccer well.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1520113412646-fa108603ee94?auto=format&fit=crop&w=400&q=80" class="task-image" alt="An old black and white family photograph">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 8, topic: "Future", heroImg: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Do you think we will live on Mars one day?</li>
+                            <li>What will schools look like in the future?</li>
+                            <li>Why do you use a computer? (to play, to study)</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate 'will / won't' for future predictions and the infinitive of purpose (I use a phone to call my mom).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the picture of space. Write 2 predictions about the future.</p>
+                                <span class='quote'>'People will travel in flying cars. We will go to the moon to take a vacation.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Futuristic view of Earth from space">
+                            </div>
+                        </div>
+                    `
+                }
+            ],
+            "Book 4": [
+                { 
+                    unit: 1, topic: "Clubs", heroImg: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Have you ever joined a club or a sports team?</li>
+                            <li>What did you do there? When did you start?</li>
+                            <li>Have you ever played an instrument?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate the critical shift between Present Perfect (general life experiences: "I have played") and Past Simple (specific time: "I started last year").</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write about an activity you have tried. Say when you did it.</p>
+                                <span class='quote'>'I have joined a science club. I joined it last year. We made a volcano.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids doing a science experiment">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 2, topic: "Hobbies", heroImg: "https://images.unsplash.com/photo-1456086272160-b223402d00f4?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What is your favorite hobby right now?</li>
+                            <li>How long have you had that hobby?</li>
+                            <li>Do you collect anything? What is it made of?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Focus on Present Perfect continuous or simple with 'for' (duration) and 'since' (starting point), plus passive voice for materials (It is made of wood).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Describe a collection or a hobby. Use 'for' or 'since'.</p>
+                                <span class='quote'>'I collect toy cars. I have collected them since I was five. They are made of metal.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1582650596350-13e00fcbe4b4?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Collection of vintage stamps or toys">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 3, topic: "Tech", heroImg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Will robots go to school with us in the future?</li>
+                            <li>What might happen in the year 2050?</li>
+                            <li>Do you think technology makes life better?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess modals of probability and possibility (will definitely, may, might, could).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the robot. Write your opinion about future technology using 'may' or 'might'.</p>
+                                <span class='quote'>'In the future, robots might clean our houses. They may help us do homework.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A friendly looking robot">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 4, topic: "Futures", heroImg: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What are you going to be when you grow up?</li>
+                            <li>Is anyone going to help you achieve your dream?</li>
+                            <li>Is there anything you are going to study next year?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check 'going to' for planned future intentions, and indefinite pronouns (someone, anyone, nothing, everything).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write your career plan. What are you going to do?</p>
+                                <span class='quote'>'I am going to be a doctor. I am going to help everyone who is sick.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Person looking through a telescope or a professional working">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 5, topic: "Stories", heroImg: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What were you doing yesterday at 8 PM?</li>
+                            <li>What were you doing when the phone rang this morning?</li>
+                            <li>Have you ever heard a scary noise? What did it sound like?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate the Past Continuous tense interrupted by the Past Simple (I was reading when the dog barked).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Look at the spooky house. Write a short 2-sentence story about it.</p>
+                                <span class='quote'>'I was walking past the old house when I heard a loud ghost noise!'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1518715303843-586e350765b2?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A dark and spooky forest or house">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 6, topic: "News", heroImg: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Have you seen the news today yet?</li>
+                            <li>What is happening in the world right now?</li>
+                            <li>Have you already finished your homework for today?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Check the use of Present Perfect specifically with the adverbs 'already' and 'yet'.</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Write a quick news report about your day using 'already' and 'yet'.</p>
+                                <span class='quote'>'Breaking news! I have already eaten lunch, but I haven't done my homework yet.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Newspapers stacked or a microphone">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 7, topic: "Science", heroImg: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>What happens if you mix blue and yellow paint?</li>
+                            <li>What happens if you leave ice in the sun?</li>
+                            <li>Is there a little water in the glass or a lot?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Assess the Zero Conditional for scientific facts (If you heat ice, it melts) and quantifiers (a little, a few).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Explain a simple science fact using 'If'.</p>
+                                <span class='quote'>'If you put water in the freezer, it turns into ice.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1574682710403-2ee0f3cb3c20?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Colorful chemistry beakers">
+                            </div>
+                        </div>
+                    `
+                },
+                { 
+                    unit: 8, topic: "Changing World", heroImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+                    speak: `
+                        <ul class="question-list">
+                            <li>Did you use to live in a different city when you were a baby?</li>
+                            <li>What did you use to play with?</li>
+                            <li>Your city is very big now, isn't it?</li>
+                        </ul>
+                        <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate 'used to' for past habits, question tags (isn't it? didn't you?), and comparisons of equality (as big as).</div>
+                    `,
+                    write: `
+                        <div class="task-split">
+                            <div class="text-col">
+                                <p>Compare how things were in the past to now. Use 'used to'.</p>
+                                <span class='quote'>'People used to ride horses everywhere. Now, cars are as fast as airplanes.'</span>
+                            </div>
+                            <div class="img-col">
+                                <img src="https://images.unsplash.com/photo-1464638708307-e547071db196?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Split image or an old steam train vs modern train">
+                            </div>
+                        </div>
+                    `
+                }
+            ]
+        };
+
+        const bookNav = document.getElementById('book-nav');
+        const unitNav = document.getElementById('unit-nav');
+        const contentArea = document.getElementById('content-area');
+        
+        let currentBook = null;
+
+        function init() {
+            Object.keys(curriculum).forEach(bookName => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-book';
+                btn.innerText = bookName;
+                btn.onclick = () => selectBook(bookName, btn);
+                bookNav.appendChild(btn);
+            });
+        }
+
+        function selectBook(bookName, btnElement) {
+            currentBook = bookName;
+            document.querySelectorAll('.btn-book').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            unitNav.innerHTML = '';
+            contentArea.style.display = 'none';
+
+            curriculum[bookName].forEach(unitData => {
+                const btn = document.createElement('button');
+                btn.className = 'btn btn-unit visible';
+                btn.innerText = `Unit ${unitData.unit}: ${unitData.topic}`;
+                btn.onclick = () => displayUnit(unitData, btn);
+                unitNav.appendChild(btn);
+            });
+        }
+
+        function displayUnit(unitData, btnElement) {
+            document.querySelectorAll('.btn-unit').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            document.getElementById('unit-title').innerText = `${currentBook} - Unit ${unitData.unit}: ${unitData.topic}`;
+            document.getElementById('unit-image').src = unitData.heroImg;
+            document.getElementById('unit-image').alt = `Theme for ${unitData.topic}`;
+            
+            document.getElementById('speaking-task').innerHTML = unitData.speak;
+            document.getElementById('writing-task').innerHTML = unitData.write;
+
+            contentArea.style.display = 'block';
+        }
+
+        init();
+    </script>
+</body>
+</html>
