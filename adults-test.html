@@ -193,6 +193,27 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
 
+        /* GREETING BANNER */
+        .greeting-banner {
+            background-color: var(--bg-sidebar);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .greeting-banner strong { 
+            color: var(--accent-gold); 
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
         /* TASK CARDS */
         .task-grid {
             display: grid;
@@ -230,6 +251,47 @@
         }
 
         .task-content p { margin-bottom: 15px; }
+        .task-content ul { margin-left: 20px; margin-bottom: 15px; }
+        .task-content li { margin-bottom: 8px; }
+
+        /* Highlight classes for teacher & student conversational flow */
+        .warmup-bubble {
+            background-color: #EBF3FB;
+            border-left: 4px solid var(--accent-blue);
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .warmup-bubble strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .maintask-bubble {
+            background-color: #FDF8E2;
+            border-left: 4px solid var(--accent-gold);
+            padding: 14px 18px;
+            border-radius: 0 6px 6px 0;
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .maintask-bubble strong {
+            color: #997A15;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
         .evaluator-notes {
             background-color: #F8FAFC;
@@ -291,227 +353,402 @@
             <h2 class="unit-title" id="unit-title">Welcome</h2>
             <img id="unit-hero" class="hero-img" src="" alt="Corporate Theme">
 
+            <!-- GREETING BLOCK -->
+            <div class="greeting-banner" id="greeting-content"></div>
+
             <div class="task-grid">
+                <!-- WRITING TASK -->
+                <div class="card writing">
+                    <div class="card-header">✉️ Written Expression Task</div>
+                    <div class="task-content" id="write-content"></div>
+                </div>
+
                 <!-- SPEAKING TASK -->
                 <div class="card speaking">
                     <div class="card-header">🗣️ Professional Interaction (Speaking)</div>
                     <div class="task-content" id="speak-content"></div>
-                </div>
-
-                <!-- WRITING TASK -->
-                <div class="card writing">
-                    <div class="card-header">✉️ Business & Social Correspondence (Writing)</div>
-                    <div class="task-content" id="write-content"></div>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        // CURRICULUM DATA (Books 1-4, 46 Units Total)
+        // STANDARD GREETING FOR ALL UNITS (Neutral, Time-Independent)
+        const stdGreeting = "Welcome! On behalf of Comfenalco Quindío, it is a pleasure to welcome you to Instituto Comfenalco. I will be your examiner today and it is a pleasure to meet you. Let's start our conversation...";
+
+        // CURRICULUM DATA (Books 1-5, with unique non-repeated writing prompts per unit, speaking prompts untouched)
         const curriculum = {
             "Book 1 (Breakthrough)": {
                 level: "A1",
                 units: [
-                    { u: 1, title: "Welcome", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
-                      s: "What is your name and nationality? Can you provide your contact info?",
-                      w: "Fill in a registration form with your professional details.",
-                      wc: "30-50 words", e: "Check basic greetings, 'to be' verb, and numbers/spelling for contact info." },
-                    { u: 2, title: "Work", img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80",
-                      s: "What is your job? What objects are on your desk?",
-                      w: "Write a short professional bio using 'be' and possessive adjectives.",
-                      wc: "40-60 words", e: "Assess vocabulary for office objects and possessive adjectives (my, his, our)." },
-                    { u: 3, title: "Home", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
-                      s: "Where do you live? Tell me about your family.",
-                      w: "Write a short description of your house using position of adjectives.",
-                      wc: "40-60 words", e: "Evaluate adjective placement (a big house) and basic family vocabulary." },
-                    { u: 4, title: "Good things", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
-                      s: "How much is this? Can I order a coffee?",
-                      w: "Write a short website post about your favorite restaurant.",
-                      wc: "50-70 words", e: "Check functional language for buying/ordering and basic transactional interactions." },
-                    { u: 5, title: "Daily life", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
-                      s: "What is your typical workday like? When do you start?",
-                      w: "Write a work log of your daily activities using frequency adverbs.",
-                      wc: "50-70 words", e: "Assess Present Simple for routines and adverbs of frequency (usually, always)." },
-                    { u: 6, title: "Places", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-                      s: "How do I get to the bank? Is there a hotel nearby?",
-                      w: "Write a description of your neighborhood for a visitor.",
-                      wc: "60-80 words", e: "Evaluate 'There is/are', prepositions of place, and basic directions." },
+                    { u: 1, title: "Welcome!", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's start with some very basic personal details: Could you tell me your full name, and would you mind spelling your first name for me?",
+                      mt: "Thank you. Now, speaking of names and backgrounds, where are you from originally, and what is your nationality?",
+                      w: "Write a short message to introduce yourself: state your full name, spell your last name, and specify your nationality and city of residence.",
+                      e: "Check basic greetings, 'to be' verb, and numbers/spelling for contact info." },
+                    { u: 2, title: "At Work", img: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about what you do every day. Do you currently have a job, or are you a student at the moment?",
+                      mt: "Since you mentioned you are a [worker/student], could you describe your typical workplace or study space? What are some of the common objects you have around you on your desk?",
+                      w: "Write a short paragraph about your current job or studies. List three common objects you use in your workspace using possessive adjectives (my, your, our).",
+                      e: "Assess vocabulary for office objects and possessive adjectives (my, his, our)." },
+                    { u: 3, title: "At Home", img: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "I'd like to know a bit about where you live. Do you live in a house or an apartment, and which is your favorite room there?",
+                      mt: "Speaking of your home, could you describe what it looks like and tell me about the family members or roommates you share it with?",
+                      w: "Write a short paragraph describing your home or apartment, mentioning your favorite room and the people you live with.",
+                      e: "Evaluate adjective placement (a big house) and basic family vocabulary." },
+                    { u: 4, title: "The Good Things in Life", img: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about things you enjoy. What do you usually like to do in your free time when you want to relax?",
+                      mt: "That sounds lovely. Can you tell me about a specific hobby or leisure activity that you practice regularly, and explain why you like it so much?",
+                      w: "Write about your favorite leisure activities. Describe two things you like to do on weekends and what items (objects) you need for them.",
+                      e: "Check functional language for buying/ordering and basic transactional interactions." },
+                    { u: 5, title: "A Day in My Life", img: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss how you organize your days. Which day of the week is your favorite day, and what do you normally do then?",
+                      mt: "Thinking about your normal schedule, can you walk me through your typical daily routine on a workday? What times do you usually start and finish your main activities?",
+                      w: "Write down your typical Monday schedule. Specify what time you wake up, start your main activities, and finish work or study.",
+                      e: "Assess Present Simple for routines and adverbs of frequency (usually, always)." },
+                    { u: 6, title: "Places to Go", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about your local city or town. What is your favorite public place to visit when you go out, like a park, a mall, or a square?",
+                      mt: "Since you like that area, if a visitor comes to your neighborhood for the first time, what interesting places are there to see nearby, and where are they located?",
+                      w: "Write a short note describing two interesting places in your neighborhood (e.g., a park or café) and state where they are located using prepositions of place.",
+                      e: "Evaluate 'There is/are', prepositions of place, and basic directions." },
                     { u: 7, title: "Communication", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
-                      s: "How is the weather today? What are you working on right now?",
-                      w: "Write a short email update using the Present Continuous.",
-                      wc: "60-80 words", e: "Check Present Continuous for actions happening at the moment." },
-                    { u: 8, title: "Big Day", img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80",
-                      s: "When is your birthday? Tell me about a past celebration.",
-                      w: "Write an email about a recent event using the Past Simple.",
-                      wc: "60-80 words", e: "Assess Past Simple of regular and common irregular verbs (went, had)." },
-                    { u: 9, title: "Art", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
-                      s: "How does this painting make you feel? Describe it.",
-                      w: "Describe a photo or work of art using past time expressions.",
-                      wc: "70-90 words", e: "Evaluate past time expressions (yesterday, last year) and descriptive vocabulary." },
-                    { u: 10, title: "Going out", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
-                      s: "What are your plans for the weekend? Can you go to the cinema?",
-                      w: "Write an invitation email for a night out.",
-                      wc: "70-90 words", e: "Check functional language for invitations and future arrangements." }
+                      g: stdGreeting,
+                      wu: "To start, let's talk about the weather today. What is the weather like outside right now, and do you prefer hot or cold days?",
+                      mt: "Weather can really affect our daily activities. Apart from learning English, what is a major project, class, or work task you are actively working on at this exact point in your life?",
+                      w: "Write about what you and your family members are doing right now. Describe the current weather and your ongoing activities using the Present Continuous tense.",
+                      e: "Check Present Continuous for actions happening at the moment." },
+                    { u: 8, title: "A Big Day", img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about personal celebrations. When is your birthday, and how do you usually celebrate it?",
+                      mt: "Birthdays are always great milestones. Can you tell me about a past birthday celebration, or a particularly special day in your past that you remember very well?",
+                      w: "Write about a memorable day from your past. State where you went, who you were with, and what you did using simple past verbs (e.g., went, saw, had).",
+                      e: "Assess Past Simple of regular and common irregular verbs (went, had)." },
+                    { u: 9, title: "A Work of Art", img: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about media and entertainment. What kind of movies, TV shows, or music do you usually enjoy when you are at home?",
+                      mt: "Thinking about those interests, can you tell me about a film, a book, or a song that made a strong impression on you in the past? What was it about, and how did it make you feel?",
+                      w: "Write a short review of a movie or book you experienced last year. Include past time expressions and simple descriptive adjectives.",
+                      e: "Evaluate past time expressions (yesterday, last year) and descriptive vocabulary." },
+                    { u: 10, title: "Going Out", img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about your social life. What do you usually like to do when you go out to relax with your friends or family?",
+                      mt: "Going out is a great way to recharge. What are your specific plans for this coming weekend? Who are you going to see, and what activities can you do together?",
+                      w: "Write an email to a friend inviting them out for the upcoming weekend. Detail your specific plans and ask if they can join you.",
+                      e: "Check functional language for invitations and future arrangements." }
                 ]
             },
             "Book 2 (Waystage)": {
                 level: "A2",
                 units: [
-                    { u: 1, title: "World", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
-                      s: "Introduce yourself. What are your most important possessions?",
-                      w: "Write a personal profile for an international website.",
-                      wc: "80-100 words", e: "Check extended self-introductions and descriptive adjectives." },
-                    { u: 2, title: "My life", img: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell me about your family and your interests.",
-                      w: "Complete a personal profile including family and routine.",
-                      wc: "80-100 words", e: "Assess fluency in discussing routines and family relationships." },
-                    { u: 3, title: "Days", img: "https://images.unsplash.com/photo-1506784951206-b9623471d471?auto=format&fit=crop&w=800&q=80",
-                      s: "What do you suggest we do on Saturday? Sound enthusiastic.",
-                      w: "Write a blog post about your favorite day of the week.",
-                      wc: "90-110 words", e: "Evaluate making suggestions (Let's, How about) and expressing enthusiasm." },
-                    { u: 4, title: "Home life", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
-                      s: "Ask for information about a rental apartment. Give directions.",
-                      w: "Write a detailed description of your home for a rental site.",
-                      wc: "90-110 words", e: "Check asking for information and giving complex directions." },
-                    { u: 5, title: "Shopping", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
-                      s: "What do you think of these clothes? Can you describe your style?",
-                      w: "Write a description of an outfit in a photo using 'can' and 'continuous'.",
-                      wc: "100-120 words", e: "Assess vocabulary for clothing and giving opinions." },
-                    { u: 6, title: "Outdoors", img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
-                      s: "Do you like sports? Why or why not?",
-                      w: "Write messages to a group chat to arrange a sport activity.",
-                      wc: "100-120 words", e: "Check giving reasons and organizing plans via text/chat formats." },
-                    { u: 7, title: "On the move", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
-                      s: "How was your last vacation? How did you travel?",
-                      w: "Write an informal email about a trip using the Past Simple.",
-                      wc: "110-130 words", e: "Evaluate narrative sequencing in the past." },
-                    { u: 8, title: "News", img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell me about a major life event. Respond to my news.",
-                      w: "Write a short biography of a person you admire.",
-                      wc: "110-130 words", e: "Check functional language for reacting to news (That's great! Oh no!)." },
-                    { u: 9, title: "Food", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
-                      s: "What should I eat to stay healthy? How do you order in a restaurant?",
-                      w: "Write a restaurant review using countable/uncountable nouns.",
-                      wc: "120-140 words", e: "Assess food vocabulary and quantifiers (some, any, much, many)." },
+                    { u: 1, title: "One World", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "To start our conversation, let's talk about travel. What country or city would you like to visit one day, and why?",
+                      mt: "Traveling is a great way to see the world. Now, could you introduce yourself to me in detail and tell me about one or two personal possessions that you always take with you when you travel?",
+                      w: "Write a personal profile entry introducing your background and describing two valuable personal possessions you always carry when traveling abroad.",
+                      e: "Check extended self-introductions and descriptive adjectives." },
+                    { u: 2, title: "My Life", img: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about your personal interests. What are some of your favorite hobbies that you practice regularly in your daily life?",
+                      mt: "It's great to have dedicated hobbies. Could you tell me how you first got interested in those activities, and tell me if anyone in your family shares these same interests?",
+                      w: "Write about your family background and your regular hobbies. Specify how often you practice your favorite outdoor activities using frequency adverbs.",
+                      e: "Assess fluency in discussing routines and family relationships." },
+                    { u: 3, title: "Days of Our Lives", img: "https://images.unsplash.com/photo-1506784951206-b9623471d471?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about your weekends. Can you describe what a typical Saturday looks like for you from morning to night?",
+                      mt: "Saturdays are perfect for socializing. When you want to suggest a weekend plan to your friends or family, what do you usually suggest, and how do you convince them to join you?",
+                      w: "Write a short message to a group of friends outlining a suggested itinerary for a fun Saturday outing, making use of suggestions like 'Let's' or 'How about'.",
+                      e: "Evaluate making suggestions (Let's, How about) and expressing enthusiasm." },
+                    { u: 4, title: "Home Life", img: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "I'd like to ask you about your neighborhood. What is the area where you currently live like? Are there many stores, restaurants, or parks nearby?",
+                      mt: "Neighborhoods really shape our lifestyle. If you could design your absolute ideal home, what rooms and furniture would it have, and where would it be located?",
+                      w: "Write a description of your current neighborhood and explain how to get from your home to the nearest grocery store or transit station.",
+                      e: "Check asking for information and giving complex directions." },
+                    { u: 5, title: "Shopping Around", img: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about shopping. Do you enjoy shopping for clothes, and do you prefer online shopping or physical stores?",
+                      mt: "Shopping choices often reflect who we are. How would you describe your personal style, and how do the clothes you are wearing today compare to what you wear for work or formal events?",
+                      w: "Write a short post describing your personal fashion style. Contrast the casual clothes you like to wear at home with the professional attire required for work.",
+                      e: "Assess vocabulary for clothing and giving opinions." },
+                    { u: 6, title: "The Great Outdoors", img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about active lifestyles. Do you prefer spending your free time indoors at home or outdoors in nature? Why?",
+                      mt: "Being outdoors often goes hand-in-hand with physical activity. Do you enjoy playing or watching sports? What are some physical activities you are good at, and which ones do you dislike?",
+                      w: "Write a short opinion post stating whether you love or hate outdoor sports, explaining your reasons and how often you practice them.",
+                      e: "Check giving reasons and organizing plans via text/chat formats." },
+                    { u: 7, title: "On the Move", img: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about transportation. What is your favorite way to travel when you go on a long trip: by car, bus, or plane? Why?",
+                      mt: "Each mode of transport offers a different experience. Could you tell me about the last time you traveled somewhere on vacation? Where did you go, how did you get there, and what did you do?",
+                      w: "Write a short travel log entry about your last vacation: state where you went, how you traveled there, who accompanied you, and your primary activities.",
+                      e: "Evaluate narrative sequencing in the past." },
+                    { u: 8, title: "In the News", img: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about sharing news with others. What is some good news you received recently from a friend or a family member, and how did you feel?",
+                      mt: "Good news often marks important moments. Can you tell me about a major life stage or milestone you experienced in your past, and explain how it changed your life?",
+                      w: "Write an email to a friend sharing some exciting personal news or a recent milestone, and express how it made you feel.",
+                      e: "Check functional language for reacting to news (That's great! Oh no!)." },
+                    { u: 9, title: "Food Matters", img: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about food. What is your favorite meal of the day, and what do you usually eat for it?",
+                      mt: "Our food choices are closely linked to our health. In your opinion, what should a person eat and do to maintain a healthy lifestyle, and what advice would you give to someone who wants to eat better?",
+                      w: "Write three practical nutrition tips for a healthy lifestyle, using quantifiers (some, any, much, many) and food vocabulary.",
+                      e: "Assess food vocabulary and quantifiers (some, any, much, many)." },
                     { u: 10, title: "Technology", img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80",
-                      s: "Which device is better? What are you going to buy next?",
-                      w: "Write an online post comparing two electronic gadgets.",
-                      wc: "120-140 words", e: "Check comparatives/superlatives and 'going to' for future plans." },
-                    { u: 11, title: "Work life", img: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=800&q=80",
-                      s: "Explain your job responsibilities. Can you make an offer?",
-                      w: "Write a formal email requesting info or making a request.",
-                      wc: "130-150 words", e: "Evaluate professional register, requests, and offers (Can I help? Would you like?)." },
-                    { u: 12, title: "Live fully", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
-                      s: "What are your recommendations for a good life? How do you feel?",
-                      w: "Create an information flyer for a wellness event.",
-                      wc: "130-150 words", e: "Check modal verbs for advice (should, shouldn't)." }
+                      g: stdGreeting,
+                      wu: "Let's talk about daily tools. What electronic devices or mobile apps do you find absolutely essential in your daily life?",
+                      mt: "Technology has developed so rapidly. How do you think your current smartphone or computer compares to older models you owned in the past? What technology are you going to buy next?",
+                      w: "Write a short paragraph comparing your current computer or phone with older models, and state what electronic gadget you plan to buy next.",
+                      e: "Check comparatives/superlatives and 'going to' for future plans." },
+                    { u: 11, title: "A Working Life", img: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about career choices. What jobs did you find interesting when you were younger, and what do you think of them now?",
+                      mt: "Careers often bring specific daily routines. What are your current responsibilities at work or in your studies? What tasks do you have to do every day, and which ones don't you have to do?",
+                      w: "Write about your daily professional or academic obligations. Detail what tasks you have to complete daily and what duties you don't have to worry about.",
+                      e: "Evaluate professional register, requests, and offers (Can I help? Would you like?)." },
+                    { u: 12, title: "Live Life Fully", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about stress. What do you usually like to do to unwind and relax after a very busy or difficult day?",
+                      mt: "Relaxation is key to a balanced life. Have you ever made a major positive change to your lifestyle or health habits? Tell me about what you did and how you feel now compared to the past.",
+                      w: "Write advice for a stressed colleague or friend, explaining what healthy habits they should adopt and what actions they shouldn't take.",
+                      e: "Check modal verbs for advice (should, shouldn't)." }
                 ]
             },
             "Book 3 (Threshold)": {
                 level: "B1",
                 units: [
                     { u: 1, title: "Communication", img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
-                      s: "How do you show emotions? Check if I understand you.",
-                      w: "Write a professional email and a personal profile.",
-                      wc: "140-160 words", e: "Assess checking for understanding and expressing feelings clearly." },
-                    { u: 2, title: "Nature", img: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell a story about an animal. How did you react?",
-                      w: "Write an informal message about a trip to a natural park.",
-                      wc: "140-160 words", e: "Evaluate storytelling combining Past Simple and Past Continuous." },
+                      g: stdGreeting,
+                      wu: "To begin, let's talk about how you stay in touch. Do you prefer calling, texting, or talking in person when you have important news for a friend?",
+                      mt: "The way we connect is very personal. In your professional or academic life, do you prefer communicating with colleagues face-to-face or through digital messages? Explain your reasons.",
+                      w: "Write an email to a colleague discussing preferred communication methods, explaining why face-to-face talks or digital chats work better for complex projects.",
+                      e: "Assess checking for understanding and expressing feelings clearly." },
+                    { u: 2, title: "Back to Nature", img: "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss the outdoors. What is your favorite natural place to visit when you want to escape the busy city, and why do you like it?",
+                      mt: "Spending time in nature often brings unexpected encounters. Can you tell me a story about a memorable interaction you had with an animal, or an interesting trip into nature in the past? What was happening when it occurred?",
+                      w: "Write a narrative account of a trip into nature, describing what you were doing when an unexpected event or sudden weather change occurred.",
+                      e: "Evaluate storytelling combining Past Simple and Past Continuous." },
                     { u: 3, title: "Icons", img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-                      s: "Do you agree that modern buildings are better? Why?",
-                      w: "Write a blog post about a famous person or building.",
-                      wc: "150-170 words", e: "Check expressing agreement/disagreement respectfully in a professional context." },
-                    { u: 4, title: "Learning", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
-                      s: "What are your future career plans? What must you do?",
-                      w: "Write a formal email for an educational course.",
-                      wc: "150-170 words", e: "Assess modals of obligation (must, have to) and future intentions." },
-                    { u: 5, title: "Getting help", img: "https://images.unsplash.com/photo-1516542076529-1ea3854896f2?auto=format&fit=crop&w=800&q=80",
-                      s: "What should I do if I have a headache? Give predictions.",
-                      w: "Write an opinion essay on health and technology.",
-                      wc: "160-180 words", e: "Evaluate making predictions with 'will' and giving strong advice." },
-                    { u: 6, title: "Changes", img: "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=80",
-                      s: "Have you ever changed your personality? Compare yourself now and then.",
-                      w: "Write a comment for a web forum about life changes.",
-                      wc: "160-180 words", e: "Check 'used to' vs Present Simple for contrasting past and present." },
+                      g: stdGreeting,
+                      wu: "Let's talk about architecture. Is there a specific building or landmark in your city that you find beautiful or interesting?",
+                      mt: "City designs are always evolving. Do you think historical buildings in a city should be strictly preserved, or is it better to replace them with modern structures? Explain your views.",
+                      w: "Write a short article evaluating a famous landmark in your city, using relative clauses (e.g., 'the tower, which was built in...') to describe its features.",
+                      e: "Check expressing agreement/disagreement respectfully in a professional context." },
+                    { u: 4, title: "Learning by Doing", img: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about practical skills. What is a specific skill or hobby you learned by practicing in real life rather than studying in a classroom?",
+                      mt: "Practical experience is incredibly valuable. What are your professional or academic plans for the near future, and what must you do or learn next in order to achieve them?",
+                      w: "Write about a practical skill you acquired independently. Detail what rules you had to follow and what steps you must take to master it further.",
+                      e: "Assess modals of obligation (must, have to) and future intentions." },
+                    { u: 5, title: "Getting Help", img: "https://images.unsplash.com/photo-1516542076529-1ea3854896f2?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss health and wellness. What do you typically do when you feel under the weather or have a minor health issue?",
+                      mt: "Staying healthy is a major priority. If a colleague is struggling with intense work stress or burnout, what advice should you give them? Also, how do you predict technology will change healthcare in the future?",
+                      w: "Write a health advice message for a friend experiencing burnout, predicting how lifestyle adjustments and wellness apps will help them recover.",
+                      e: "Evaluate making predictions with 'will' and giving strong advice." },
+                    { u: 6, title: "Ages and Changes", img: "https://images.unsplash.com/photo-1552581234-26160f608093?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's reflect on your life. How have your personal interests, style, or personality changed since you were a teenager?",
+                      mt: "Growth is a natural part of life. How do your current lifestyle, responsibilities, and daily habits compare to how they used to be five or ten years ago? What has changed the most?",
+                      w: "Write a reflective paragraph contrasting your current lifestyle with how things used to be when you were younger, using 'used to' and present simple structures.",
+                      e: "Check 'used to' vs Present Simple for contrasting past and present." },
                     { u: 7, title: "Homelife", img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell me about your city features. What have you done today?",
-                      w: "Create a promotional flyer for a local city project.",
-                      wc: "170-190 words", e: "Assess Present Perfect for recent actions and life experiences." },
+                      g: stdGreeting,
+                      wu: "Let's talk about local life. What are some of the best features of the neighborhood where you currently live?",
+                      mt: "Our living spaces are very important to us. Tell me about a city or town you have visited that you really liked. What have you done so far today in your own town, and how does it compare to that place?",
+                      w: "Write about how your neighborhood has changed recently, mentioning what new facilities or residential projects have just been built.",
+                      e: "Assess Present Perfect for recent actions and life experiences." },
                     { u: 8, title: "Technology", img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
-                      s: "Do you prefer using a car or a bike? Give your opinion.",
-                      w: "Write a for-and-against essay about modern transport.",
-                      wc: "170-190 words", e: "Evaluate structuring arguments (on the one hand, on the other hand)." },
-                    { u: 9, title: "Healthy", img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80",
-                      s: "Give me a warning or a promise about health. Is it enough?",
-                      w: "Write an invitation for a corporate fitness event.",
-                      wc: "180-200 words", e: "Check language for promises and warnings (If you don't..., you will...)." },
-                    { u: 10, title: "Money", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
-                      s: "If you were rich, what would you buy? Negotiate a price.",
-                      w: "Write a formal email regarding a financial matter.",
-                      wc: "180-200 words", e: "Assess Second Conditional for hypothetical situations and negotiation language." },
-                    { u: 11, title: "Self", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
-                      s: "I wish I could travel more. Give me suggestions.",
-                      w: "Write an article about personality and career success.",
-                      wc: "190-210 words", e: "Evaluate 'wish' for present regrets and offering complex suggestions." },
-                    { u: 12, title: "Entertain", img: "https://images.unsplash.com/photo-1470229722913-7c090be18b54?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell me what the manager said using reported speech.",
-                      w: "Write a review of a concert or movie.",
-                      wc: "190-210 words", e: "Check Reported Speech accuracy (tense backshifting)." }
+                      g: stdGreeting,
+                      wu: "Let's talk about your daily commute. How do you usually get to work or study every day, and how long does it take?",
+                      mt: "Commuting is a major part of urban life. What is your opinion on public transportation in your city? Is it better to rely on digital transport apps or traditional transit systems?",
+                      w: "Write a short review comparing commuting options in your city, discussing if public transit is efficient enough or if personal vehicles are too costly.",
+                      e: "Evaluate structuring arguments (on the one hand, on the other hand)." },
+                    { u: 9, title: "Healthy Lifestyles", img: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss food and wellness. How do you make sure you get enough sleep and eat well during a busy week?",
+                      mt: "Maintaining balance is hard in modern life. In your opinion, what are the most common mistakes people make when trying to stay healthy, and what is your personal resolution to improve your own health?",
+                      w: "Write an email providing health and sleep warnings to a friend, utilizing conditional structures (e.g., 'If you don't sleep enough, you will feel...').",
+                      e: "Check language for promises and warnings (If you don't..., you will...)." },
+                    { u: 10, title: "Money and Shopping", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about shopping habits. Do you find it easy or difficult to save money, and what do you usually save for?",
+                      mt: "Financial planning is an important skill. If you won a significant amount of money in the lottery, what would you buy, and how would your daily life change?",
+                      w: "Write a creative response using the Second Conditional: explain what you would buy and how your daily life would change if you had an unlimited financial budget.",
+                      e: "Assess Second Conditional for hypothetical situations and negotiation language." },
+                    { u: 11, title: "A Sense of Self", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's reflect on your talents. Is there a language, sport, or musical instrument you wish you had learned in childhood?",
+                      mt: "We all have ongoing aspirations. Complete this thought for me: 'I wish I could...' and tell me what concrete actions you would need to take in order to make that wish a reality.",
+                      w: "Write about a personal ambition or present regret, starting with 'I wish I could...', and describe the practical steps required to fulfill that goal.",
+                      e: "Evaluate 'wish' for present regrets and offering complex suggestions." },
+                    { u: 12, title: "Entertain Me", img: "https://images.unsplash.com/photo-1470229722913-7c090be18b54?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about culture. What is the last movie, play, or live concert you saw, and did you enjoy it?",
+                      mt: "Arts and entertainment often teach us valuable lessons. Think of some important professional or personal advice a boss, teacher, or mentor gave you in the past. What did they tell you or ask you to do?",
+                      w: "Write a summary of a piece of advice or instruction someone gave you recently, converting their exact words into reported speech.",
+                      e: "Check Reported Speech accuracy (tense backshifting)." }
                 ]
             },
             "Book 4 (Vantage)": {
                 level: "B1+/B2",
                 units: [
-                    { u: 1, title: "Connected", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
-                      s: "Ask me a subject and an object question about my work.",
-                      w: "Create a promotional poster for a social campaign.",
-                      wc: "200-220 words", e: "Assess formulation of complex subject/object questions." },
-                    { u: 2, title: "Stories", img: "https://images.unsplash.com/photo-1455390582262-044cdead2708?auto=format&fit=crop&w=800&q=80",
-                      s: "Do you prefer books or movies? Agree or disagree with me.",
-                      w: "Describe a historical photo and narrate what happened.",
-                      wc: "200-220 words", e: "Evaluate narrative tenses (Past Perfect vs Past Continuous)." },
-                    { u: 3, title: "Art", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
-                      s: "How do you respond to street art? Use extreme adjectives.",
-                      w: "Write a professional review of an art exhibition.",
-                      wc: "210-230 words", e: "Check extreme adjectives (exhausted, freezing) vs gradable adjectives." },
-                    { u: 4, title: "World", img: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=800&q=80",
-                      s: "Discuss environmental issues. What have we been doing?",
-                      w: "Write a report on a local environmental problem.",
-                      wc: "210-230 words", e: "Assess Present Perfect Continuous for ongoing past-to-present actions." },
+                    { u: 1, title: "Staying Connected", img: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "To start, let's talk about your professional contacts. Do you keep in touch with former classmates or colleagues, and how do you do it?",
+                      mt: "Networking is key to professional growth. How important do you think professional networking is in your current career or studies, and what strategies do you use to expand your network?",
+                      w: "Write a short article discussing how professional networking methods have evolved over recent years, using complex subject and object questions.",
+                      e: "Assess formulation of complex subject/object questions." },
+                    { u: 2, title: "Telling Stories", img: "https://images.unsplash.com/photo-1455390582262-044cdead2708?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about how you consume stories. What's the most interesting piece of news, book, or article you've read recently?",
+                      mt: "We are constantly surrounded by information. Do you agree or disagree with the idea that social media has made traditional journalism obsolete? Explain your position.",
+                      w: "Write a short essay evaluating how a recent news story unfolded, blending Past Simple, Past Continuous, and Past Perfect tenses.",
+                      e: "Evaluate narrative tenses (Past Perfect vs Past Continuous)." },
+                    { u: 3, title: "Art Everywhere", img: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about visual arts. Do you enjoy visiting museums, or do you prefer seeing art in public spaces like street murals?",
+                      mt: "Art can be quite controversial. How do you react to street art or graffiti? Do you view it as a form of creative expression or as vandalism? Explain your personal response.",
+                      w: "Write a critical opinion paragraph about public art installations, contrasting gradable and extreme adjectives (e.g., 'good' vs 'extraordinary', 'cold' vs 'freezing').",
+                      e: "Check extreme adjectives (exhausted, freezing) vs gradable adjectives." },
+                    { u: 4, title: "The World Around Us", img: "https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss environmental awareness. What are some simple, everyday actions you take to reduce waste or save energy at home?",
+                      mt: "Individual actions are part of a larger global effort. What do you think are the major environmental issues in Colombia today, and what should we be doing as a society to help solve them?",
+                      w: "Write an opinion article discussing environmental issues that have been worsening in your city recently, utilizing the Present Perfect Continuous.",
+                      e: "Assess Present Perfect Continuous for ongoing past-to-present actions." },
                     { u: 5, title: "Connections", img: "https://images.unsplash.com/photo-1569154941061-e231b4732ef1?auto=format&fit=crop&w=800&q=80",
-                      s: "Explain this travel diagram. Sound polite.",
-                      w: "Write a for-and-against essay on international travel.",
-                      wc: "220-240 words", e: "Evaluate polite/indirect questions and structured argumentation." },
-                    { u: 6, title: "Small world", img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
-                      s: "What are your recommendations for a holiday? What must happen?",
-                      w: "Write a blog post about a global celebration.",
-                      wc: "220-240 words", e: "Check advanced modals of deduction and recommendation." },
-                    { u: 7, title: "Me & my things", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
-                      s: "Tell me about your possessions using vague language.",
-                      w: "Write a summary of an article about consumerism.",
-                      wc: "230-250 words", e: "Assess fluency using vague language (stuff, kind of, sort of)." },
-                    { u: 8, title: "Active", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
-                      s: "Listen to my instructions. Sound interested.",
-                      w: "Write a formal email using reported speech structures.",
-                      wc: "230-250 words", e: "Evaluate active listening techniques (Really?, That's interesting) and reported speech." },
-                    { u: 9, title: "Rules", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
-                      s: "Ask for permission politely. What are the workspace rules?",
-                      w: "Write an opinion essay on privacy and digital laws.",
-                      wc: "240-260 words", e: "Check advanced permission structures (Would you mind if I...)." },
-                    { u: 10, title: "Insights", img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
-                      s: "Complain about a product. Sound concerned.",
-                      w: "Write a description of a technical process using passives.",
-                      wc: "240-260 words", e: "Assess polite complaining and complex Passive Voice." },
-                    { u: 11, title: "Market", img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80",
-                      s: "Ask for permission to leave. Sound polite.",
-                      w: "Write a formal report on global market trends.",
-                      wc: "250-280 words", e: "Evaluate professional diplomatic language and formal report structures." },
+                      g: stdGreeting,
+                      wu: "Let's talk about work environments. Do you find it easier to concentrate when you study or work at home, or do you prefer being in a classroom or office?",
+                      mt: "Modern technology has changed how we connect. Do you think remote work and online study have made professional connections stronger or weaker? Explain your views.",
+                      w: "Write a structured argumentative piece comparing remote work and office collaboration, incorporating polite indirect questions.",
+                      e: "Evaluate polite/indirect questions and structured argumentation." },
+                    { u: 6, title: "Small World", img: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about cultural adaptation. Have you ever spent time in a different city or country, and what was the most surprising thing you noticed?",
+                      mt: "Adapting to a new place is a unique journey. If you had the opportunity to relocate to any country in the world for a year, where would you go, and what do you think would happen to your lifestyle?",
+                      w: "Write a reflective text speculating on relocating abroad, utilizing advanced modals of deduction and recommendation (e.g., 'must have been', 'should consider').",
+                      e: "Check advanced modals of deduction and recommendation." },
+                    { u: 7, title: "Me and My Things", img: "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about possessions. What is one item you own, like a gift or an old photo, that you would never throw away?",
+                      mt: "Sentimental items are very different from general consumer goods. Do you think people in modern society place too much value on material possessions? Explain your perspective.",
+                      w: "Write a reflection on personal possessions and consumer culture, making natural use of vague language (e.g., 'stuff', 'sort of', 'things like that').",
+                      e: "Assess fluency using vague language (stuff, kind of, sort of)." },
+                    { u: 8, title: "Get Active!", img: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about managing stress. When you are feeling overwhelmed by a busy schedule, how do you manage your time?",
+                      mt: "In busy environments, communication is crucial. In your opinion, why is active listening important in a professional or academic environment, and how do you demonstrate it?",
+                      w: "Write an advisory guide on professional time management and active listening, reporting statements and feedback given by experienced mentors.",
+                      e: "Evaluate active listening techniques (Really?, That's interesting) and reported speech." },
+                    { u: 9, title: "Rules and Regulations", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about structure. In your childhood, did you grow up in a very strict home or school environment, or was it quite relaxed?",
+                      mt: "Rules shape our development. Do you think workplace or academic rules should be strictly enforced, or is flexibility better for productivity? Explain your reasons.",
+                      w: "Write a formal proposal for workplace guidelines, incorporating advanced permission and request structures (e.g., 'Would you mind if...', 'It is requested that...').",
+                      e: "Check advanced permission structures (Would you mind if I...)." },
+                    { u: 10, title: "Insights and Innovations", img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about daily problem-solving. What is a specific piece of technology or a tool that has recently solved a daily problem for you?",
+                      mt: "Innovations can significantly improve our lives, but they aren't always perfect. Have you ever had a frustrating experience with a faulty product or service? Tell me what happened and how you handled it.",
+                      w: "Write a formal email of complaint regarding a faulty workplace tech device, utilizing complex passive voice constructions (e.g., 'It was expected that...', 'It was shipped with...').",
+                      e: "Assess polite complaining and complex Passive Voice." },
+                    { u: 11, title: "A Global Market", img: "https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss international trends. Do you prefer buying local products and clothes, or do you prefer international brands? Why?",
+                      mt: "Our market choices are increasingly global. How has globalization affected local businesses or cultural fashion in Colombia in recent years?",
+                      w: "Write a formal business report analyzing how global trade and international markets impact local enterprises in Colombia.",
+                      e: "Evaluate professional diplomatic language and formal report structures." },
                     { u: 12, title: "Memories", img: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=800&q=80",
-                      s: "If you had stayed at your first job, what would have happened?",
-                      w: "Write a personal anecdote using perfect tenses.",
-                      wc: "250-280 words", e: "Check Third Conditional (If I had known, I would have...) for past regrets." }
+                      g: stdGreeting,
+                      wu: "Let's reflect on your major choices. Looking back, what is one professional or academic decision you are really glad you made?",
+                      mt: "Every choice leads us down a different path. If you had chosen a completely different career path, major, or job five years ago, how do you think your life would be different today?",
+                      w: "Write an essay reflecting on past career decisions and regrets using the Third Conditional (e.g., 'If I had chosen..., I would have...').",
+                      e: "Check Third Conditional (If I had known, I would have...) for past regrets." }
+                ]
+            },
+            "Book 5 (Vantage)": {
+                level: "B2.1/B2.2",
+                units: [
+                    { u: 1, title: "People and Relationships", img: "https://images.unsplash.com/photo-1521737604845-5936146781ef?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's start by talking about the people around you. How do you usually stay in touch with your close friends, and how do you support each other during difficult times?",
+                      mt: "Maintaining strong relationships requires mutual effort. In your opinion, what is the best way to handle disagreements in a friendship, and what actions have you personally taken in the past to resolve a conflict?",
+                      w: "Write an analytical essay on interpersonal conflict resolution, incorporating reflexive pronouns and formal register control.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 2, title: "Modern Life", img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Modern lifestyles can be very demanding. What are your daily sleeping habits like, and how do you feel if you don't get enough rest?",
+                      mt: "Adapting to modern life is often a challenge. How have your daily routines and technology habits changed compared to five years ago, and what are some things you are still trying to get used to?",
+                      w: "Write a for-and-against essay examining how remote work and digital connectivity impact sleep routines, contrasting past habits ('used to / would') with current adaptations ('get used to').",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 3, title: "Danger and Risk", img: "https://images.unsplash.com/photo-1504280655380-60b642ec3427?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about safety. Do you consider yourself a cautious person, or do you enjoy taking risks, like trying extreme sports or traveling to unfamiliar places?",
+                      mt: "Facing unexpected situations is part of life. Tell me about a past experience where you had to deal with an emergency or a major problem. What was happening, and how did you manage to resolve it?",
+                      w: "Write a discursive account analyzing risk assessment and crisis management in professional environments, using advanced narrative structures.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 4, title: "Mind and Body", img: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about wellness. How do you keep a healthy balance between your physical fitness and your mental focus during a very busy work week?",
+                      mt: "Achieving long-term fitness goals requires consistency. What lifestyle habits or active routines have you been practicing recently to stay healthy, and what are some wellness activities you plan on pursuing in the future?",
+                      w: "Write an article evaluating the integration of physical fitness and mental well-being in corporate settings, incorporating a mix of gerunds and infinitives.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 5, title: "Work and Business", img: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss career paths. When you think about professional development, what achievements or milestones are most important to you?",
+                      mt: "The workplace is constantly evolving. In your view, what are the most significant trends shaping your current industry or field of study, and what will you do once those changes affect your daily tasks?",
+                      w: "Write a professional outlook essay examining upcoming workplace trends and automated industry shifts, utilizing future perfect and continuous forms.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 6, title: "That's Entertainment!", img: "https://images.unsplash.com/photo-1470229722913-7c090be18b54?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about media. What genres of movies, documentaries, or television shows do you find most intellectually stimulating, and why?",
+                      mt: "Popular culture can have a massive social impact. Think about a famous artistic project, film, or book that was released in Colombia. How was it received by the public, and how has it influenced local perspectives?",
+                      w: "Write a critical essay evaluating the cultural impact of modern entertainment media on local societal perspectives in Colombia.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 7, title: "The Media", img: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about staying informed. Where do you usually get your daily news, and how do you decide if a source is trustworthy?",
+                      mt: "The media plays a powerful role in society. If you could change one major aspect of how news is reported or shared today, what would you change, and what would happen if those changes were implemented?",
+                      w: "Write an analytical essay on media reliability, speculating on the hypothetical consequences of strict media reformation.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 8, title: "Crime and Punishment", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss safety guidelines. Do you think the security measures in your city have become more effective or less effective recently?",
+                      mt: "Laws are designed to maintain social order. Think of a specific rule or legal regulation that you find controversial. In your opinion, why was it established, and what must have happened before that law was created?",
+                      w: "Write a discursive essay examining legal frameworks and crime prevention, using past modals of deduction (e.g., 'must have occurred', 'could have been prevented').",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 9, title: "Money Matters", img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about personal experiences with saving or spending. Do you find it easy or difficult to save money, and what is your immediate financial priority right now?",
+                      mt: "Financial habits vary widely. How do you compare the way your generation manages money with how your parents or older generations did in Colombia, and what cleft or major financial lesson have you learned?",
+                      w: "Write an essay analyzing generational shifts in financial management and personal investment habits, utilizing advanced comparative structures.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 10, title: "Science and Nature", img: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's discuss landscapes and environment. What is your favorite natural environment or weather pattern, and how does it affect your mood?",
+                      mt: "Scientific and environmental developments constantly impact our lives. What is a specific natural phenomenon or scientific topic that you find highly interesting, and why is its study relevant for our society?",
+                      w: "Write a scientific commentary evaluating environmental research trends and their societal relevance, using advanced relative clauses and perfect infinitives.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 11, title: "Festivals and Celebrations", img: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's talk about family and local holidays. What is your favorite holiday or traditional celebration of the year, and how do you usually celebrate it?",
+                      mt: "Cultural celebrations represent shared history. Describe a traditional Colombian festival you attended in the past, and explain why keeping these customs alive is vital for a community's identity.",
+                      w: "Write an essay examining the preservation of cultural heritage and traditional festivals, deploying unreal conditional structures and advanced vocabulary.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." },
+                    { u: 12, title: "Food and Drinks", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+                      g: stdGreeting,
+                      wu: "Let's end with a pleasant topic. What are your favorite dishes, and do you prefer dining at local restaurants or cooking at home?",
+                      mt: "Dietary habits reflect cultural shifts. In your opinion, how has the general food culture and health awareness in Colombia changed over the past decade, and what would have happened if traditional diets had been completely lost?",
+                      w: "Write an analytical essay on evolving food culture and public health trends in Colombia, reflecting on hypothetical scenarios using third conditionals.",
+                      e: "Evaluate highly structured complex reasoning and formal register control." }
                 ]
             }
         };
@@ -567,18 +804,31 @@
             document.getElementById('unit-title').innerText = data.title;
             document.getElementById('unit-hero').src = data.img;
 
-            // Speaking
+            // Greeting (Universal for both tasks)
+            document.getElementById('greeting-content').innerHTML = `
+                <strong>🤝 Welcome & Introduction</strong>
+                "${data.g}"
+            `;
+
+            // Speaking (Divided into Warm-Up and Main Task)
             document.getElementById('speak-content').innerHTML = `
-                <p><strong>Prompt:</strong> ${data.s}</p>
+                <div class="warmup-bubble">
+                    <strong>☕ 1. Introductory Warm-up</strong>
+                    "${data.wu}"
+                </div>
+                <div class="maintask-bubble">
+                    <strong>🎯 2. Main Evaluative Task</strong>
+                    "${data.mt}"
+                </div>
                 <div class="evaluator-notes">
                     <strong>👨‍💼 Evaluator Focus:</strong> ${data.e}
                 </div>
             `;
 
-            // Writing
+            // Writing (Free writing instructions instead of word count)
             document.getElementById('write-content').innerHTML = `
                 <p><strong>Task:</strong> ${data.w}</p>
-                <div class="word-count">📋 Target: ${data.wc}</div>
+                <div class="word-count">⏱️ Time Limit: 10 Minutes (Free Writing)</div>
             `;
 
             dashboard.style.display = 'block';
