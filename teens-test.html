@@ -87,6 +87,10 @@
             flex: 1;
         }
 
+        /* Scrollbar */
+        .nav-units::-webkit-scrollbar { width: 6px; }
+        .nav-units::-webkit-scrollbar-thumb { background-color: rgba(255,255,255,0.2); border-radius: 10px; }
+
         .btn {
             background: transparent;
             color: var(--text-muted);
@@ -130,7 +134,7 @@
         .feed-container {
             max-width: 800px;
             margin: 0 auto;
-            display: none; /* Hidden until loaded */
+            display: none; 
         }
 
         .traceability-badge {
@@ -160,6 +164,28 @@
             margin-bottom: 30px;
             border: 2px solid var(--border-color);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* GREETING BANNER */
+        .greeting-banner {
+            background-color: rgba(34, 211, 238, 0.05);
+            border: 1px solid var(--neon-cyan-glow);
+            color: var(--text-main);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.1);
+        }
+
+        .greeting-banner strong { 
+            color: var(--neon-cyan); 
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         /* CARDS / TASKS */
@@ -214,6 +240,7 @@
             margin-bottom: 12px;
             padding-left: 28px;
             position: relative;
+            font-size: 1.05rem;
         }
 
         .q-list li::before {
@@ -272,11 +299,11 @@
             height: 250px;
         }
 
-        .word-count-badge {
+        .time-limit-badge {
             display: inline-block;
             background-color: rgba(244, 114, 182, 0.15);
             color: var(--neon-pink);
-            padding: 4px 12px;
+            padding: 6px 14px;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
@@ -330,112 +357,109 @@
             <h2 class="unit-title" id="unit-title">Our World</h2>
             <img id="unit-hero" class="hero-img" src="" alt="Unit Theme">
 
-            <!-- SPEAKING TASK -->
-            <div class="card speaking">
-                <div class="card-header">🎙️ The Mic is On</div>
-                <div class="task-content" id="speak-content"></div>
+            <!-- GREETING BANNER -->
+            <div class="greeting-banner" id="greeting-content"></div>
+
+            <!-- WRITING TASK (Now appears before speaking) -->
+            <div class="card writing">
+                <div class="card-header">📱 The Feed (Written Expression)</div>
+                <div class="task-content" id="write-content"></div>
             </div>
 
-            <!-- WRITING TASK -->
-            <div class="card writing">
-                <div class="card-header">📱 The Feed</div>
-                <div class="task-content" id="write-content"></div>
+            <!-- SPEAKING TASK (Follow-up interview format) -->
+            <div class="card speaking">
+                <div class="card-header">🎙️ The Mic is On (Professional Interaction)</div>
+                <div class="task-content" id="speak-content"></div>
             </div>
         </div>
     </main>
 
     <script>
-        // MASSIVE DATA STRUCTURE (36 Units)
+        // STANDARD GREETING FOR ALL EXAMS
+        const stdGreeting = "Welcome! On behalf of Comfenalco Quindío, it is a pleasure to welcome you to Instituto Comfenalco. I will be your examiner today and it is a pleasure to meet you. Let's start this exam session...";
+
+        // MASSIVE DATA STRUCTURE (45 Units across 5 CEFR-adapted Books)
         const curriculum = {
             "Book 1 (Impact)": [
                 {
                     unit: 1, topic: "Our World",
                     hero: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Can you introduce yourself?", "Where are you from?", "What is your city like?"],
+                    sQ: ["🗣️ Initial Interview: What is your name and where are you from?", "🔍 Follow-up: What is your city like and what do you usually do there?"],
                     sT: "Assess the verb 'to be', basic greetings, and simple present identity statements.",
-                    wP: "Write a short personal introduction for a new social media profile using 'be'.",
+                    wP: "Write a short message to introduce yourself for a new social media profile. Include your name, age, and where you live.",
                     wE: "'Hi guys! I am Alex. I am 14 years old and I am from Colombia. My city is beautiful.'",
-                    wC: "40 - 60 words",
                     wImg: "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 2, topic: "School",
                     hero: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What time is your English class?", "What are your favorite hobbies?", "What do you do after school?"],
+                    sQ: ["🗣️ Initial Interview: What time is your English class?", "🔍 Follow-up: What do you do after school and what are your favorite hobbies?"],
                     sT: "Check prepositions of time (at 8:00, on Monday) and present simple for routines.",
-                    wP: "Write an informal email/DM to a friend about your school routine and hobbies.",
+                    wP: "Write a short text message to a friend describing your school routine and what you do after classes.",
                     wE: "'On Mondays, I have Math at 9:00 AM. After school, I play video games.'",
-                    wC: "50 - 70 words",
                     wImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 3, topic: "Different People",
                     hero: "https://images.unsplash.com/photo-1529156069898-49953eb1b5f6?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What does your best friend look like?", "What is their personality like?", "Are they shy or outgoing?"],
+                    sQ: ["🗣️ Initial Interview: What does your best friend look like?", "🔍 Follow-up: What is their personality like? Are they shy or outgoing?"],
                     sT: "Evaluate physical descriptions (has/is) and personality adjectives (friendly, shy), plus possessive adjectives (his/her).",
-                    wP: "Write a short description of a friend to post alongside a photo of them.",
+                    wP: "Write a short description of a good friend. Describe their physical appearance and their personality.",
                     wE: "'This is my friend Sam. Her hair is dark. She is very funny and outgoing.'",
-                    wC: "50 - 70 words",
                     wImg: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 4, topic: "Lifestyle",
                     hero: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What are you wearing right now?", "Look out the window, what are people doing?", "Are you studying right now?"],
+                    sQ: ["🗣️ Initial Interview: What are you wearing right now?", "🔍 Follow-up: Look out the window (or imagine), what are people doing right now?"],
                     sT: "Assess the Present Continuous (I am wearing, they are walking) for current actions.",
-                    wP: "Create a fashion blog post describing your current outfit and vibe.",
+                    wP: "Create a short blog update describing your current outfit and what you are doing at this exact moment.",
                     wE: "'Today, I am wearing a black hoodie and blue jeans. I am relaxing at home.'",
-                    wC: "60 - 80 words",
                     wImg: "https://images.unsplash.com/photo-1550614000-4b95d415d183?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 5, topic: "Outdoors",
                     hero: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What is the weather like in your city today?", "How often does it rain?", "What do you usually do when it's sunny?"],
+                    sQ: ["🗣️ Initial Interview: What is the weather like in your city today?", "🔍 Follow-up: How often does it rain, and what do you usually do when it's sunny?"],
                     sT: "Check weather vocabulary and adverbs of frequency (always, sometimes, never).",
-                    wP: "Write a postcard or social media update from a summer camp.",
+                    wP: "Write a digital postcard from a summer camp explaining the weather and how often you do outdoor activities.",
                     wE: "'The weather here is amazing. It is always sunny. We usually go hiking in the morning.'",
-                    wC: "60 - 80 words",
                     wImg: "https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 6, topic: "Out and About",
                     hero: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["How do I get to the nearest park from here?", "What is in your city?", "Is there a good cinema nearby?"],
+                    sQ: ["🗣️ Initial Interview: What interesting places are in your city?", "🔍 Follow-up: How do I get to the nearest park or cinema from here?"],
                     sT: "Evaluate giving directions (go straight, turn left) and 'There is / There are'.",
-                    wP: "Write a mini city-guide for tourists visiting your town.",
+                    wP: "Write a mini city-guide for tourists visiting your town, giving basic directions to a popular spot.",
                     wE: "'Welcome to my city! There is a huge mall downtown. To get there, take the bus and go straight.'",
-                    wC: "70 - 90 words",
                     wImg: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 7, topic: "Adventure",
                     hero: "https://images.unsplash.com/photo-1533240332313-0db49b459ad6?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Who is a famous explorer or athlete you like?", "Tell me about a trip you took in the past.", "Where were you last summer?"],
+                    sQ: ["🗣️ Initial Interview: Where were you last summer?", "🔍 Follow-up: Tell me about a trip you took in the past or a famous explorer you like."],
                     sT: "Check the Past Simple of the verb 'to be' (was / were) and basic past time expressions.",
-                    wP: "Write a short biography of an adventurer or famous person in the past.",
+                    wP: "Write a short paragraph about an interesting historical figure or a past trip using simple past verbs.",
                     wE: "'Amelia Earhart was a famous pilot. She was very brave. Her flights were dangerous.'",
-                    wC: "70 - 90 words",
                     wImg: "https://images.unsplash.com/photo-1506197061617-7f5c0b093236?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 8, topic: "Stories",
                     hero: "https://images.unsplash.com/photo-1505635552518-3448ff116af3?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Do you like ghost stories or thrillers?", "Tell me a short mystery.", "What did you do last Halloween?"],
+                    sQ: ["🗣️ Initial Interview: What did you do last Halloween?", "🔍 Follow-up: Do you like ghost stories or thrillers? Tell me a short mystery."],
                     sT: "Assess the Past Simple tense with regular and irregular verbs (went, saw, played, walked).",
-                    wP: "Write a short, spooky narrative story for a blog.",
+                    wP: "Write a short, spooky narrative story for a blog using past tense verbs.",
                     wE: "'Last night, I walked into an old house. I heard a noise. I saw a shadow and ran away!'",
-                    wC: "80 - 100 words",
                     wImg: "https://images.unsplash.com/photo-1518715303843-586e350765b2?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 9, topic: "Food",
                     hero: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What do you usually eat for lunch?", "Can you order a meal in a restaurant?", "Do you like spicy food?"],
+                    sQ: ["🗣️ Initial Interview: What do you usually eat for lunch?", "🔍 Follow-up: Can you order a meal in a restaurant? Do you like spicy food?"],
                     sT: "Evaluate food vocabulary and quantifiers (some, any, a lot of, much, many).",
-                    wP: "Write a recipe or caption for a healthy snack video on TikTok/Reels.",
+                    wP: "Write a recipe or caption for a healthy snack video using food quantifiers.",
                     wE: "'For this snack, you need some strawberries and a little honey. Don't add too much sugar!'",
-                    wC: "80 - 100 words",
                     wImg: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80"
                 }
             ],
@@ -443,91 +467,82 @@
                 {
                     unit: 1, topic: "All About Me",
                     hero: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What are your main interests?", "How would you describe yourself to a stranger?", "What are you good at?"],
+                    sQ: ["🗣️ Initial Interview: What are your main interests?", "🔍 Follow-up: How would you describe yourself to a stranger, and what are you good at?"],
                     sT: "Check Present Simple fluency for habits/facts, and gerunds after prepositions (good at playing).",
-                    wP: "Write an informal 'About Me' section for a gaming or study profile.",
+                    wP: "Write an informal 'About Me' section for a gaming or study profile, mentioning what you are good at.",
                     wE: "'I am a creative person. I enjoy playing strategy games and I am good at solving puzzles.'",
-                    wC: "80 - 110 words",
                     wImg: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 2, topic: "Daily Life",
                     hero: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What is your exact daily routine?", "Do you have a favorite time of day? Why?", "How is your routine different on weekends?"],
+                    sQ: ["🗣️ Initial Interview: What is your exact daily routine?", "🔍 Follow-up: Do you have a favorite time of day? How is your routine different on weekends?"],
                     sT: "Evaluate complex time sequencing and contrastive routines using Present Simple.",
-                    wP: "Write a description of an 'alternative' routine, like a pro gamer or athlete's day.",
+                    wP: "Write a detailed description of an 'alternative' routine, like a pro gamer or athlete's day.",
                     wE: "'Pro gamers wake up late. First, they review strategies. Then, they stream for five hours.'",
-                    wC: "90 - 120 words",
                     wImg: "https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 3, topic: "Art Forms",
                     hero: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What kind of art or music do you like?", "Who is a famous artist or musician you respect?", "Have you ever been to a concert?"],
+                    sQ: ["🗣️ Initial Interview: What kind of art or music do you like?", "🔍 Follow-up: Have you ever been to a concert? Who is a famous artist or musician you respect?"],
                     sT: "Assess vocabulary related to culture and basic expressions of preference/opinion.",
-                    wP: "Write a short review of a cultural event, movie, or album for a blog.",
+                    wP: "Write a short, engaging review of a cultural event, movie, or album for a blog.",
                     wE: "'The concert was incredible. The band played beautifully, and the lighting was spectacular. I highly recommend it.'",
-                    wC: "100 - 120 words",
                     wImg: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 4, topic: "Special Day",
                     hero: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What was your last birthday party like?", "Was there good music?", "What did you use to do on your birthdays as a child?"],
+                    sQ: ["🗣️ Initial Interview: What did you use to do on your birthdays as a child?", "🔍 Follow-up: What was your last birthday party like? Was there good music?"],
                     sT: "Check 'used to' for past habits and 'there was/there were' for past descriptions.",
-                    wP: "Write an event review or recap of a surprise party using past structures.",
+                    wP: "Write an event recap of a recent party, contrasting it with what you used to do in the past.",
                     wE: "'When I was younger, I used to have clown parties. But yesterday, there was a huge DJ set.'",
-                    wC: "100 - 130 words",
                     wImg: "https://images.unsplash.com/photo-1530103862676-de88b628fd78?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 5, topic: "Get Connected",
                     hero: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["How will technology change in 10 years?", "Can you give me instructions for using your favorite app?", "What were you doing when your phone died?"],
+                    sQ: ["🗣️ Initial Interview: What were you doing when your phone died last time?", "🔍 Follow-up: Can you give me instructions for using your favorite app? How will technology change?"],
                     sT: "Evaluate Past Continuous vs Past Simple, and Imperatives for instructions.",
-                    wP: "Write a tech review of a new gadget or app using the Past Continuous to tell a story.",
+                    wP: "Write a tech review of a new gadget or app using the Past Continuous to tell a background story.",
                     wE: "'I was playing the new game when it suddenly crashed. Click the reset button to fix it.'",
-                    wC: "110 - 140 words",
                     wImg: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 6, topic: "Staying Healthy",
                     hero: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Should I eat more vegetables?", "What are the rules at your school?", "What must you do to stay fit?"],
+                    sQ: ["🗣️ Initial Interview: What must you do to stay fit?", "🔍 Follow-up: Should I eat more vegetables? What are the health rules at your school?"],
                     sT: "Check modal verbs for advice and obligation (should, must, mustn't, have to).",
-                    wP: "Create a health and wellness leaflet/post with tips for teenagers.",
+                    wP: "Create a health and wellness leaflet/post with advice and rules for teenagers.",
                     wE: "'You should drink a lot of water. You mustn't eat junk food every day if you want to be healthy.'",
-                    wC: "110 - 140 words",
                     wImg: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 7, topic: "Travel",
                     hero: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Have you ever traveled by plane?", "What places have you visited?", "Have you already packed for your next holiday?"],
+                    sQ: ["🗣️ Initial Interview: Have you ever traveled by plane?", "🔍 Follow-up: What places have you visited, and have you already packed for your next holiday?"],
                     sT: "Assess Present Perfect for life experiences (ever/never) and recent events (already/yet).",
-                    wP: "Write a customer review of an airline or hotel using the Present Perfect.",
+                    wP: "Write a customer review of an airline or hotel utilizing the Present Perfect tense.",
                     wE: "'I have traveled with this airline twice. I have already booked my next flight. It's the best I've ever seen.'",
-                    wC: "120 - 150 words",
                     wImg: "https://images.unsplash.com/photo-1569154941061-e231b4732ef1?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 8, topic: "Faraway Friends",
                     hero: "https://images.unsplash.com/photo-1611273426858-450d8e3c9cce?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What will happen if global warming continues?", "If it rains tomorrow, what will you do?", "How can we protect nature?"],
+                    sQ: ["🗣️ Initial Interview: How can we protect nature?", "🔍 Follow-up: What will happen if global warming continues? If it rains tomorrow, what will you do?"],
                     sT: "Evaluate the First Conditional (If + present, will + base verb) for real future possibilities.",
-                    wP: "Write a short opinion essay/blog about protecting the environment using conditionals.",
+                    wP: "Write a short opinion blog about protecting the environment using first conditionals.",
                     wE: "'If we don't recycle, the oceans will become polluted. If we act now, we will save the planet.'",
-                    wC: "130 - 160 words",
                     wImg: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 9, topic: "World",
                     hero: "https://images.unsplash.com/photo-1477281765962-ef34e8bb0967?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Which is more fun: shopping or sports? Why?", "What is the most beautiful place in your country?", "Is your city bigger than the capital?"],
+                    sQ: ["🗣️ Initial Interview: Which is more fun: shopping or sports? Why?", "🔍 Follow-up: What is the most beautiful place in your country? Is your city bigger than the capital?"],
                     sT: "Check Comparative and Superlative adjectives (bigger than, the most exciting).",
-                    wP: "Write a comparative review of two smartphones or video game consoles.",
+                    wP: "Write a comparative review of two smartphones, video game consoles, or cities.",
                     wE: "'The new X-Phone is more expensive than the Y-Phone, but it has the best camera on the market.'",
-                    wC: "130 - 160 words",
                     wImg: "https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&w=400&q=80"
                 }
             ],
@@ -535,184 +550,276 @@
                 {
                     unit: 1, topic: "Identity",
                     hero: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Does your clothing show your identity?", "What teenage stereotypes exist today?", "How important is peer pressure?"],
+                    sQ: ["🗣️ Initial Interview: Does your clothing show your identity?", "🔍 Follow-up: What teenage stereotypes exist today, and how important is peer pressure?"],
                     sT: "Assess fluency in discussing abstract concepts, identity vocabulary, and expressing complex opinions.",
-                    wP: "Write a descriptive essay or deep-dive blog about your personal style and what it represents.",
+                    wP: "Write a descriptive essay or deep-dive blog about your personal style and what it represents to you.",
                     wE: "'My style is an extension of my personality. While stereotypes suggest teens just follow trends, I choose clothes that...'",
-                    wC: "140 - 170 words",
                     wImg: "https://images.unsplash.com/photo-1492707892479-7bc8d5a4ee93?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 2, topic: "Celebrations",
                     hero: "https://images.unsplash.com/photo-1533174000255-14f76269c581?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Could you tell me how people celebrate New Year here?", "Which festivals are the best to attend?", "Can you describe a traditional dish?"],
+                    sQ: ["🗣️ Initial Interview: Could you tell me how people celebrate New Year here?", "🔍 Follow-up: Which festivals are the best to attend, and can you describe a traditional dish?"],
                     sT: "Evaluate the use of relative clauses (who, which, where, that) to describe places and events.",
-                    wP: "Write an article describing a local festival using relative clauses.",
+                    wP: "Write an article describing a local festival or celebration, utilizing relative clauses to add details.",
                     wE: "'The festival, which takes place in August, is amazing. It is a time when families gather in the park where...'",
-                    wC: "140 - 170 words",
                     wImg: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 3, topic: "Real Life Stories",
                     hero: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Who is an inspiring person to you?", "What had they done before they became famous?", "Tell me a story of overcoming failure."],
+                    sQ: ["🗣️ Initial Interview: Who is an inspiring person to you?", "🔍 Follow-up: What had they done before they became famous? Tell me a story of overcoming failure."],
                     sT: "Check the Past Perfect (had done) vs Past Simple (did) to show sequencing in the past.",
-                    wP: "Write a short biography of a historical figure or idol using the Past Perfect.",
+                    wP: "Write a short biography of a historical figure or idol, focusing on what they had achieved before their main success.",
                     wE: "'Before he won the championship, he had trained for ten years. He had never given up, even when...'",
-                    wC: "150 - 180 words",
                     wImg: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 4, topic: "Reel Film",
                     hero: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What film might you watch tonight?", "What was the plot like in the last movie you saw?", "What makes a good director?"],
+                    sQ: ["🗣️ Initial Interview: What film might you watch tonight?", "🔍 Follow-up: What was the plot like in the last movie you saw? What makes a good director?"],
                     sT: "Assess modals of deduction/possibility (could, might, must be) and film vocabulary (plot, cast, script).",
-                    wP: "Write a professional film review for an online magazine using modals.",
+                    wP: "Write a professional film review for an online magazine using modals of deduction.",
                     wE: "'The plot was confusing; the director could have explained the ending better. However, it might win an award for cinematography.'",
-                    wC: "150 - 180 words",
                     wImg: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 5, topic: "Weather",
                     hero: "https://images.unsplash.com/photo-1527482797697-8795b05a13fe?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Do you wish the weather were different right now?", "What happens during a natural disaster?", "Have you ever seen a severe storm?"],
+                    sQ: ["🗣️ Initial Interview: Do you wish the weather were different right now?", "🔍 Follow-up: Have you ever seen a severe storm? What happens during a natural disaster?"],
                     sT: "Evaluate 'Wish / If only + past' for present regrets (I wish it were sunny).",
-                    wP: "Write a dramatic news report about extreme weather using 'Wish/If only'.",
+                    wP: "Write a dramatic news report about extreme weather integrating 'Wish / If only' statements from citizens.",
                     wE: "'The storm destroyed the town. Residents said, \"If only we had evacuated sooner. We wish the government had warned us.\"'",
-                    wC: "150 - 180 words",
                     wImg: "https://images.unsplash.com/photo-1605380062402-99da4593414a?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 6, topic: "In the News",
                     hero: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Is the news always true? What is 'fake news'?", "How is advertising used today?", "Where is your smartphone made?"],
+                    sQ: ["🗣️ Initial Interview: Is the news always true? What is 'fake news'?", "🔍 Follow-up: How is advertising used today, and where is your smartphone made?"],
                     sT: "Check the Passive Voice (is made, was invented, are used) to shift focus from the doer to the action.",
-                    wP: "Write a formal letter to a newspaper editor complaining about misleading ads using Passive Voice.",
+                    wP: "Write a formal letter to a newspaper editor complaining about misleading ads using the Passive Voice.",
                     wE: "'Dear Editor, Teenagers are constantly targeted by fake ads. Products are falsely advertised on social media...'",
-                    wC: "160 - 190 words",
                     wImg: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 7, topic: "Advice",
                     hero: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What should you have done to get better grades last year?", "Give me some career advice.", "What is the best way to manage time?"],
+                    sQ: ["🗣️ Initial Interview: What is the best way to manage time?", "🔍 Follow-up: Give me some career advice. What should you have done to get better grades last year?"],
                     sT: "Assess Past Modals of regret/advice (should have done, could have been).",
-                    wP: "Write an essay or reflective article about time management and setting goals.",
+                    wP: "Write an essay or reflective article about time management, goals, and past academic regrets.",
                     wE: "'Looking back, I should have organized my schedule better. Students ought to prioritize their tasks to avoid stress.'",
-                    wC: "160 - 190 words",
                     wImg: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 8, topic: "Motivation",
                     hero: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What motivates you to study hard?", "If you feel stressed or tired, what do you do?", "What is your learning style?"],
+                    sQ: ["🗣️ Initial Interview: What is your learning style?", "🔍 Follow-up: What motivates you to study hard? If you feel stressed or tired, what do you do?"],
                     sT: "Evaluate academic vocabulary, discussing abstract psychological states, and zero/first conditionals for habits.",
-                    wP: "Write a reflective essay on mindfulness, motivation, and study styles.",
+                    wP: "Write a reflective essay on mindfulness, personal motivation, and overcoming study burnout.",
                     wE: "'Motivation can decline when we face burnout. To combat this, practicing mindfulness is essential for maintaining focus...'",
-                    wC: "170 - 200 words",
                     wImg: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 9, topic: "Skills",
                     hero: "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What would you do if you had a strange, magical talent?", "If you were the school principal, what would you change?", "Talk about a skill you'd like to learn."],
+                    sQ: ["🗣️ Initial Interview: Talk about a skill you'd like to learn.", "🔍 Follow-up: What would you do if you had a strange, magical talent? If you were the principal, what would you change?"],
                     sT: "Check the Second Conditional (If + past, would + base verb) for hypothetical situations.",
-                    wP: "Write an article about a personal skill or hypothetical scenario using the Second Conditional.",
+                    wP: "Write an article about a personal skill or a hypothetical scenario using the Second Conditional.",
                     wE: "'If I possessed a photographic memory, studying would be effortless. I would learn multiple languages instantly.'",
-                    wC: "170 - 200 words",
                     wImg: "https://images.unsplash.com/photo-1511216113906-8f56bbce50b7?auto=format&fit=crop&w=400&q=80"
                 }
             ],
-            "Book 4 (Lead)": [
+            "Book 4 (Perspectives)": [
                 {
                     unit: 1, topic: "Business",
                     hero: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What type of intelligence is best for a CEO?", "What skills are needed for modern jobs?", "How important is leadership?"],
+                    sQ: ["🗣️ Initial Interview: What skills are needed for modern jobs?", "🔍 Follow-up: What type of intelligence is best for a CEO? How important is leadership?"],
                     sT: "Assess high-level vocabulary related to business, leadership, and a review of all major tenses.",
-                    wP: "Write a professional cover letter applying for a part-time job or internship.",
+                    wP: "Write a formal, professional cover letter applying for a part-time job or internship.",
                     wE: "'Dear Hiring Manager, I am writing to apply for the internship. I have developed strong leadership skills and am currently studying...'",
-                    wC: "180 - 220 words",
                     wImg: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 2, topic: "Modern Life",
                     hero: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Are you used to checking social media every day?", "How do you feel about screen time?", "What is the impact of AI?"],
+                    sQ: ["🗣️ Initial Interview: How do you feel about screen time?", "🔍 Follow-up: Are you used to checking social media every day? What is the impact of AI?"],
                     sT: "Evaluate 'be/get used to + gerund' (I am used to waking up early) and expressing complex argumentative opinions.",
-                    wP: "Write a formal for-and-against essay analyzing the impact of modern technology on teens.",
+                    wP: "Write a formal for-and-against essay analyzing the impact of modern technology and screen time on teens.",
                     wE: "'On the one hand, technology connects us globally. However, many teens are getting used to superficial interactions online...'",
-                    wC: "200 - 250 words",
                     wImg: "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 3, topic: "Danger/Risk",
                     hero: "https://images.unsplash.com/photo-1504567961542-e24d9439a724?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Have you ever been in a dangerous situation?", "Tell me a thrilling anecdote.", "Are extreme sports worth the risk?"],
+                    sQ: ["🗣️ Initial Interview: Are extreme sports worth the risk?", "🔍 Follow-up: Have you ever been in a dangerous situation? Tell me a thrilling anecdote."],
                     sT: "Check the fluid integration of narrative tenses (Past Simple, Past Continuous, Past Perfect) to tell a cohesive story.",
                     wP: "Write a dramatic short story or anecdote about surviving a natural disaster or extreme risk.",
                     wE: "'The wind was howling while we were hiking. Suddenly, the ground shook. We had never experienced an earthquake before...'",
-                    wC: "200 - 250 words",
                     wImg: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 4, topic: "Universe",
                     hero: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["If you could go to Mars, would you?", "What is the Universe like?", "Will humanity survive on other planets?"],
+                    sQ: ["🗣️ Initial Interview: What is the Universe like?", "🔍 Follow-up: If you could go to Mars, would you? Will humanity survive on other planets?"],
                     sT: "Assess mixed conditionals and scientific/space vocabulary.",
                     wP: "Write an informative essay or article about space exploration and the future of humanity.",
                     wE: "'If space agencies had received more funding, we would already have a colony on Mars. Looking ahead, if we develop...'",
-                    wC: "200 - 250 words",
                     wImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 5, topic: "Work/Business",
                     hero: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["What are the current trends in the job market?", "How do you deal with delicate situations or conflict?", "Is remote work better?"],
+                    sQ: ["🗣️ Initial Interview: What are the current trends in the job market?", "🔍 Follow-up: Is remote work better? How do you deal with delicate situations or conflict?"],
                     sT: "Evaluate professional register, reporting verbs, and structures for analyzing data/facts.",
-                    wP: "Write a professional, structured report analyzing facts and data on youth employment.",
+                    wP: "Write a professional, structured report analyzing facts and data on youth employment trends.",
                     wE: "'This report outlines the current trends. Research indicates that remote work has increased by 40%, suggesting that adaptability is crucial.'",
-                    wC: "200 - 250 words",
                     wImg: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 6, topic: "Entertainment",
                     hero: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Do you prefer blockbuster movies or indie books?", "Tell me about an interesting lecture or podcast you heard.", "What makes a performance great?"],
+                    sQ: ["🗣️ Initial Interview: What makes a performance great?", "🔍 Follow-up: Do you prefer blockbuster movies or indie books? Tell me about an interesting lecture or podcast you heard."],
                     sT: "Check collective nouns (audience, cast, staff) and advanced Passive Voice structures.",
-                    wP: "Write an entertainment review for a school magazine focusing on the production quality.",
+                    wP: "Write an entertainment review for a school magazine focusing on production quality and cast performance.",
                     wE: "'The play was well-received by the audience. The sets were designed beautifully, and the cast's performance was highly praised.'",
-                    wC: "200 - 250 words",
                     wImg: "https://images.unsplash.com/photo-1460881680858-30d872d5b530?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 7, topic: "The Media",
                     hero: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["How do you feel about targeted advertising?", "Can you give me a warning about internet privacy?", "How do algorithms shape our opinions?"],
+                    sQ: ["🗣️ Initial Interview: How do you feel about targeted advertising?", "🔍 Follow-up: Can you give me a warning about internet privacy? How do algorithms shape our opinions?"],
                     sT: "Assess language of warning/advice and vocabulary related to digital media and statistics.",
-                    wP: "Write a detailed online comment or blog post analyzing a diagram about media consumption.",
+                    wP: "Write a detailed online comment or blog post analyzing media consumption and internet privacy.",
                     wE: "'As illustrated in the chart, youth engagement with traditional media has plummeted. I strongly warn users to be mindful of algorithmic bias.'",
-                    wC: "220 - 260 words",
                     wImg: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 8, topic: "Crime",
                     hero: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["Do you agree with current laws regarding cybercrime?", "What must have happened in this unsolved mystery?", "Are prisons effective?"],
+                    sQ: ["🗣️ Initial Interview: Are prisons effective?", "🔍 Follow-up: Do you agree with current laws regarding cybercrime? What must have happened in this unsolved mystery?"],
                     sT: "Evaluate past modals of deduction (must have been, can't have done) and legal/crime vocabulary.",
-                    wP: "Write an opinion essay on the justice system, crime prevention, and rehabilitation.",
+                    wP: "Write an opinion essay on the justice system, crime prevention, and the root causes of cybercrime.",
                     wE: "'In my view, the thief must have known the security code. However, addressing the root causes of crime is more important than strict punishment.'",
-                    wC: "220 - 260 words",
                     wImg: "https://images.unsplash.com/photo-1533227260828-531c6b459867?auto=format&fit=crop&w=400&q=80"
                 },
                 {
                     unit: 9, topic: "Money Matters",
                     hero: "https://images.unsplash.com/photo-1580519542036-ed47ce12220a?auto=format&fit=crop&w=800&q=80",
-                    sQ: ["How do you negotiate a price?", "Why does money matter in today's society?", "What is the best way to save?"],
+                    sQ: ["🗣️ Initial Interview: Why does money matter in today's society?", "🔍 Follow-up: What is the best way to save? How do you negotiate a price?"],
                     sT: "Check cleft sentences for emphasis (It was the price that surprised me / What I need is more time) and advanced financial vocabulary.",
-                    wP: "Write a formal email regarding a financial dispute, scholarship, or refund request.",
+                    wP: "Write a formal email regarding a financial dispute, scholarship application, or refund request.",
                     wE: "'To whom it may concern, What concerns me most is the hidden fee. It was the lack of transparency that prompted this email...'",
-                    wC: "220 - 260 words",
                     wImg: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=400&q=80"
+                }
+            ],
+            "Book 5 (Lead)": [
+                {
+                    unit: 1, topic: "People and Relationships",
+                    hero: "https://images.unsplash.com/photo-1521737604845-5936146781ef?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: How do you usually stay in touch with your close friends?", "🔍 Follow-up: What is the best way to handle disagreements in a friendship, and what actions have you taken to resolve conflicts?"],
+                    sT: "Evaluate highly structured complex reasoning and formal register control in interpersonal topics.",
+                    wP: "Write an analytical essay on interpersonal conflict resolution, incorporating reflexive pronouns and formal register control.",
+                    wE: "'Effective communication is crucial. Individuals must evaluate themselves objectively when conflicts arise...'",
+                    wImg: "https://images.unsplash.com/photo-1529156069898-49953eb1b5f6?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 2, topic: "Modern Life",
+                    hero: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: What are your daily sleeping habits like?", "🔍 Follow-up: How have your daily routines and technology habits changed compared to five years ago?"],
+                    sT: "Evaluate complex comparisons of past habits vs present adaptations using 'used to / get used to'.",
+                    wP: "Write a for-and-against essay examining how digital connectivity impacts sleep routines and modern wellness.",
+                    wE: "'While we used to disconnect after school, today's generation must get used to the constant stream of notifications...'",
+                    wImg: "https://images.unsplash.com/photo-1511216113906-8f56bbce50b7?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 3, topic: "Danger and Risk",
+                    hero: "https://images.unsplash.com/photo-1504280655380-60b642ec3427?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: Do you consider yourself a cautious person, or do you enjoy taking risks?", "🔍 Follow-up: Tell me about a past experience where you had to deal with an emergency or a major problem."],
+                    sT: "Assess the integration of advanced narrative tenses and risk-assessment vocabulary.",
+                    wP: "Write a discursive account analyzing risk assessment and crisis management in youth environments.",
+                    wE: "'Taking calculated risks is essential for growth. However, when the crisis occurred, we realized we hadn't prepared sufficiently...'",
+                    wImg: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 4, topic: "Mind and Body",
+                    hero: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: How do you keep a healthy balance between your physical fitness and your mental focus?", "🔍 Follow-up: What lifestyle habits have you been practicing recently to stay healthy?"],
+                    sT: "Evaluate the use of gerunds/infinitives and vocabulary related to mental health and physical fitness.",
+                    wP: "Write an article evaluating the integration of physical fitness and mental well-being in academic settings.",
+                    wE: "'Maintaining balance requires dedicating time to both exercising and meditating. Schools should encourage students to participate...'",
+                    wImg: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 5, topic: "Future Careers",
+                    hero: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: When you think about professional development, what achievements are most important to you?", "🔍 Follow-up: What are the most significant trends shaping your future field of study?"],
+                    sT: "Assess future perfect and continuous forms for discussing long-term career goals.",
+                    wP: "Write a professional outlook essay examining upcoming workplace trends and automated industry shifts.",
+                    wE: "'By the time we graduate, the job market will have transformed drastically. We will be working alongside artificial intelligence...'",
+                    wImg: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 6, topic: "That's Entertainment!",
+                    hero: "https://images.unsplash.com/photo-1470229722913-7c090be18b54?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: What genres of movies or shows do you find most intellectually stimulating?", "🔍 Follow-up: Think about a famous artistic project released in Colombia. How has it influenced local perspectives?"],
+                    sT: "Evaluate complex reasoning regarding cultural impact and abstract artistic expression.",
+                    wP: "Write a critical essay evaluating the cultural impact of modern entertainment media on local societal perspectives.",
+                    wE: "'Modern cinema not only entertains but also acts as a mirror for society. The recent influx of independent films has challenged...'",
+                    wImg: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 7, topic: "The Media",
+                    hero: "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: Where do you usually get your daily news, and how do you decide if a source is trustworthy?", "🔍 Follow-up: If you could change one major aspect of how news is reported today, what would you change?"],
+                    sT: "Assess speculative consequences of media reform using advanced conditional structures.",
+                    wP: "Write an analytical essay on media reliability, speculating on the hypothetical consequences of strict media reformation.",
+                    wE: "'If stricter regulations were enforced on digital platforms, the spread of misinformation would significantly decrease...'",
+                    wImg: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 8, topic: "Rules and Society",
+                    hero: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: Do you think the security measures in your city have become more effective recently?", "🔍 Follow-up: Think of a specific rule or legal regulation that you find controversial. Why was it established?"],
+                    sT: "Evaluate past modals of deduction to analyze the origins of laws and societal rules.",
+                    wP: "Write a discursive essay examining legal frameworks and crime prevention using past modals of deduction.",
+                    wE: "'The policy must have been established to curb rising crime rates. However, authorities could have implemented a more balanced approach...'",
+                    wImg: "https://images.unsplash.com/photo-1533227260828-531c6b459867?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 9, topic: "Money Matters",
+                    hero: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: Do you find it easy or difficult to save money, and what is your financial priority right now?", "🔍 Follow-up: How do you compare the way your generation manages money with how your parents did?"],
+                    sT: "Check advanced comparative structures and vocabulary related to generational shifts in finance.",
+                    wP: "Write an essay analyzing generational shifts in financial management and personal investment habits.",
+                    wE: "'While previous generations prioritized saving for housing, younger individuals are far more likely to invest in digital assets...'",
+                    wImg: "https://images.unsplash.com/photo-1580519542036-ed47ce12220a?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 10, topic: "Science and Nature",
+                    hero: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: What is your favorite natural environment or weather pattern?", "🔍 Follow-up: What is a specific natural phenomenon or scientific topic that you find highly interesting?"],
+                    sT: "Evaluate the use of advanced relative clauses and perfect infinitives in scientific contexts.",
+                    wP: "Write a scientific commentary evaluating environmental research trends and their societal relevance.",
+                    wE: "'The recent studies, which have focused heavily on renewable energy, seem to have proven that sustainable living is achievable...'",
+                    wImg: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 11, topic: "Festivals and Celebrations",
+                    hero: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: What is your favorite holiday or traditional celebration of the year?", "🔍 Follow-up: Describe a traditional Colombian festival you attended in the past. Why is keeping these customs alive vital?"],
+                    sT: "Assess the integration of unreal conditionals and advanced vocabulary for cultural preservation.",
+                    wP: "Write an essay examining the preservation of cultural heritage and traditional festivals.",
+                    wE: "'If communities did not actively celebrate these traditions, invaluable cultural heritage would undoubtedly fade into obscurity...'",
+                    wImg: "https://images.unsplash.com/photo-1533174000255-14f76269c581?auto=format&fit=crop&w=400&q=80"
+                },
+                {
+                    unit: 12, topic: "Food and Drinks",
+                    hero: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=800&q=80",
+                    sQ: ["🗣️ Initial Interview: What are your favorite dishes, and do you prefer dining at local restaurants or cooking?", "🔍 Follow-up: How has the general food culture and health awareness in Colombia changed over the past decade?"],
+                    sT: "Evaluate reflections on hypothetical scenarios using third conditionals and public health vocabulary.",
+                    wP: "Write an analytical essay on evolving food culture and public health trends, reflecting on hypothetical dietary scenarios.",
+                    wE: "'If fast-food chains had not expanded so rapidly, the current rise in metabolic issues might never have reached such alarming rates...'",
+                    wImg: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"
                 }
             ]
         };
@@ -772,7 +879,13 @@
             document.getElementById('unit-title').innerText = data.topic;
             document.getElementById('unit-hero').src = data.hero;
 
-            // Speaking (The Mic is On)
+            // Greeting Banner
+            document.getElementById('greeting-content').innerHTML = `
+                <strong>🤝 Welcome & Introduction</strong>
+                "${stdGreeting}"
+            `;
+
+            // Speaking (The Mic is On - Interview & Follow up)
             let speakHTML = `<ul class="q-list">`;
             data.sQ.forEach(q => speakHTML += `<li>${q}</li>`);
             speakHTML += `</ul>
@@ -781,12 +894,12 @@
                           </div>`;
             document.getElementById('speak-content').innerHTML = speakHTML;
 
-            // Writing (The Feed)
+            // Writing (The Feed - CEFR adapted prompts with time limit instead of word count)
             let writeHTML = `
                 <div class="write-split">
                     <div class="write-text">
                         <p>${data.wP}</p>
-                        <span class="word-count-badge">🎯 Word Count Target: ${data.wC}</span>
+                        <span class="time-limit-badge">⏱️ Time Limit: 10 Minutes (Free Writing)</span>
                         <span class="example-quote">Example: ${data.wE}</span>
                     </div>
                     <div class="write-img-container">
