@@ -4,276 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESL Placement Exam - Open Day Series</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        /* CSS3 STYLES */
-        :root {
-            --bg-color: #E0F7FA;
-            --primary-blue: #29B6F6;
-            --primary-blue-dark: #0288D1;
-            --primary-yellow: #FFEE58;
-            --primary-yellow-dark: #FBC02D;
-            --primary-green: #66BB6A;
-            --primary-green-dark: #388E3C;
-            --primary-purple: #AB47BC;
-            --text-color: #37474F;
-            --white: #FFFFFF;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Nunito', sans-serif;
+            background-color: #f0f9ff;
+            /* Fun polka dot background */
+            background-image: radial-gradient(#bae6fd 3px, transparent 3px);
+            background-size: 40px 40px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Custom Bouncy Button Styles */
+        .btn-bouncy {
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-bouncy:active {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px rgba(0,0,0,0) !important;
+        }
+
+        /* Injected Content Styles (from the curriculum data) */
+        .question-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        h1, h2, h3 {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        header {
-            background-color: var(--white);
-            padding: 20px 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 900px;
-            text-align: center;
-        }
-
-        header h1 {
-            color: var(--primary-blue-dark);
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* NAVIGATION */
-        .nav-books, .nav-units {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 900px;
-        }
-
-        .btn {
-            font-family: inherit;
-            font-size: 1.2rem;
-            font-weight: bold;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.1s ease-in-out;
-            text-transform: uppercase;
-        }
-
-        .btn-book {
-            background-color: var(--primary-yellow);
-            color: #333;
-            box-shadow: 0 6px 0 var(--primary-yellow-dark);
-        }
-
-        .btn-book:active, .btn-book.active {
-            transform: translateY(6px);
-            box-shadow: 0 0 0 var(--primary-yellow-dark);
-            background-color: var(--primary-yellow-dark);
-        }
-
-        .btn-unit {
-            background-color: var(--primary-green);
-            color: var(--white);
-            box-shadow: 0 6px 0 var(--primary-green-dark);
-            font-size: 1rem;
-            padding: 10px 20px;
-            display: none; 
-        }
-
-        .btn-unit.visible {
-            display: inline-block;
-        }
-
-        .btn-unit:active, .btn-unit.active {
-            transform: translateY(6px);
-            box-shadow: 0 0 0 var(--primary-green-dark);
-            background-color: var(--primary-green-dark);
-        }
-
-        /* CONTENT DISPLAY */
-        #content-area {
-            width: 100%;
-            max-width: 900px;
-            background-color: var(--white);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 0 rgba(0,0,0,0.1);
-            display: none;
-        }
-
-        .unit-header {
-            color: var(--primary-blue-dark);
-            font-size: 2.2rem;
-            border-bottom: 4px dashed var(--primary-blue);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        /* Hero Image */
-        .hero-img {
-            width: 100%;
-            height: 250px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            object-fit: cover;
-            border: 4px solid #eceff1;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        /* Task Sections */
-        .section {
-            background-color: #F5F5F5;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-left: 8px solid;
-            position: relative;
-        }
-
-        .section h3 {
-            text-align: left;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.6rem;
-        }
-
-        .speaking {
-            border-color: var(--primary-blue);
-            background-color: #E1F5FE;
+            gap: 12px;
         }
         
-        .speaking h3 { color: var(--primary-blue-dark); }
-
-        .writing {
-            border-color: var(--primary-yellow-dark);
-            background-color: #FFFDE7;
-        }
-
-        .writing h3 { color: #F57F17; }
-
-        /* Task Specific Content */
-        .task-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            font-size: 1.2rem;
-            line-height: 1.6;
-        }
-
-        .question-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
         .question-list li {
-            margin-bottom: 10px;
-            padding-left: 30px;
             position: relative;
+            padding-left: 35px;
+            font-size: 1.15rem;
+            color: #1e40af;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 10px 15px 10px 45px;
+            border-radius: 12px;
+            border: 2px dashed #93c5fd;
         }
         
         .question-list li::before {
             content: '💬';
             position: absolute;
-            left: 0;
-            top: 2px;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
         }
 
         .teacher-notes {
-            background-color: #F3E5F5;
-            border: 2px dashed var(--primary-purple);
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 1rem;
-            color: #4A148C;
-            margin-top: 15px;
+            background-color: #f3e8ff;
+            border: 3px dashed #a855f7;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            color: #6b21a8;
+            margin-top: 20px;
+            box-shadow: 4px 4px 0 rgba(168, 85, 247, 0.2);
+        }
+
+        .task-split {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .task-split {
+                flex-direction: row;
+                align-items: center;
+            }
+            .task-split .text-col { flex: 1.2; }
+            .task-split .img-col { flex: 1; display: flex; justify-content: center; }
         }
 
         .task-image {
             width: 100%;
             max-width: 400px;
             height: auto;
-            border-radius: 10px;
-            border: 3px solid #ccc;
-            margin: 15px 0;
-            align-self: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-height: 300px;
+            object-fit: contain; /* Changed from cover to contain to prevent cropping */
+            background-color: #f8fafc; /* Added subtle background for images that don't fill the aspect ratio */
+            border-radius: 20px;
+            border: 6px solid #fff;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1), 0 0 0 4px #fb923c;
+            transform: rotate(-2deg);
+            transition: transform 0.3s;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .speaking .task-image {
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1), 0 0 0 4px #22d3ee;
+            transform: rotate(2deg);
+        }
+
+        .task-image:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .time-limit-badge {
+            display: inline-block;
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin: 12px 0;
+            border: 2px solid #f87171;
+            box-shadow: 2px 2px 0 #f87171;
         }
 
         .quote {
-            background-color: rgba(255,255,255,0.7);
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            margin-top: 10px;
+            background-color: #fef08a;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #854d0e;
             display: inline-block;
-            border-left: 4px solid var(--primary-yellow-dark);
+            border: 3px solid #eab308;
+            box-shadow: 3px 3px 0 #eab308;
+            margin-top: 10px;
         }
-
-        @media (min-width: 768px) {
-            .task-split {
-                display: flex;
-                gap: 20px;
-                align-items: flex-start;
-            }
-            .task-split .text-col {
-                flex: 1;
-            }
-            .task-split .img-col {
-                flex: 1;
-                display: flex;
-                justify-content: center;
-            }
+        
+        .smooth-scroll {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
-<body>
 
-    <header>
-        <h1>🌟 Open Day Series 🌟</h1>
-        <h2>ESL Placement Exam Explorer</h2>
-        <p>For young learners (Ages 7-12)</p>
+<body class="flex flex-col items-center min-h-screen p-4 sm:p-8 smooth-scroll">
+
+    <!-- Header Section -->
+    <header class="w-full max-w-4xl bg-white p-6 sm:p-10 rounded-[2rem] border-4 border-blue-400 shadow-[0_10px_0_#60a5fa] text-center mb-10 relative overflow-hidden">
+        <div class="absolute -top-6 -left-6 text-6xl opacity-20 transform -rotate-12">⭐</div>
+        <div class="absolute -bottom-6 -right-6 text-6xl opacity-20 transform rotate-12">🚀</div>
+        
+        <h1 class="text-blue-600 text-4xl sm:text-5xl font-bold tracking-wide uppercase mb-3 drop-shadow-sm">
+            🌟 Open Day Series 🌟
+        </h1>
+        <h2 class="text-slate-700 text-2xl sm:text-3xl font-semibold mb-2">
+            ESL Placement Exam Explorer
+        </h2>
+        <div class="inline-block bg-yellow-300 text-yellow-900 font-bold px-6 py-2 rounded-full border-2 border-yellow-500 shadow-[2px_2px_0_#ca8a04] mt-2">
+            🎒 For young learners (Ages 7-12)
+        </div>
     </header>
 
-    <nav class="nav-books" id="book-nav"></nav>
-    <nav class="nav-units" id="unit-nav"></nav>
+    <!-- Book Selection Navigation -->
+    <nav class="w-full max-w-4xl flex flex-wrap justify-center gap-4 sm:gap-6 mb-8" id="book-nav">
+        <!-- Buttons injected via JS -->
+    </nav>
 
-    <main id="content-area">
-        <h2 class="unit-header" id="unit-title">Select a Unit</h2>
-        <img id="unit-image" class="hero-img" src="" alt="Unit Theme">
+    <!-- Unit Selection Navigation (Initially Hidden) -->
+    <div id="unit-container" class="w-full max-w-4xl bg-white/60 backdrop-blur-sm p-6 rounded-3xl border-4 border-dashed border-sky-300 mb-10 hidden">
+        <h3 class="text-center text-xl text-sky-700 font-bold mb-4">🗺️ Choose a Unit to Start!</h3>
+        <nav class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4" id="unit-nav">
+            <!-- Buttons injected via JS -->
+        </nav>
+    </div>
 
-        <div class="section speaking">
-            <h3>🗣️ Let's Talk! (Speaking)</h3>
-            <div class="task-content" id="speaking-task"></div>
+    <!-- Main Content Area (Initially Hidden) -->
+    <main id="content-area" class="w-full max-w-4xl bg-white rounded-[2rem] border-4 border-slate-200 shadow-[0_12px_0_#cbd5e1] p-6 sm:p-10 hidden mb-20 scroll-mt-6">
+        
+        <div class="flex items-center justify-center gap-4 mb-8 pb-6 border-b-4 border-dashed border-slate-200">
+            <span class="text-4xl">🎯</span>
+            <h2 class="text-3xl sm:text-4xl text-blue-800 font-bold text-center" id="unit-title">Select a Unit</h2>
+            <span class="text-4xl">🎯</span>
+        </div>
+        
+        <!-- Greeting Banner -->
+        <div class="bg-green-100 border-4 border-green-400 p-5 sm:p-6 rounded-2xl mb-8 shadow-[4px_4px_0_#4ade80] relative">
+            <div class="absolute -top-5 -left-3 text-4xl">👋</div>
+            <strong class="block text-green-800 text-xl font-bold mb-2 ml-4">Welcome & Introduction!</strong>
+            <p class="text-green-900 font-semibold text-lg leading-relaxed ml-4">
+                "Welcome! On behalf of Comfenalco Quindío, it is a pleasure to welcome you to Instituto Comfenalco. I will be your examiner today and it is a pleasure to meet you. Let's start this exam session..."
+            </p>
         </div>
 
-        <div class="section writing">
-            <h3>✍️ Let's Write! (Writing)</h3>
-            <div class="task-content" id="writing-task"></div>
+        <!-- Hero Image -->
+        <div class="w-full h-64 sm:h-80 md:h-96 rounded-3xl overflow-hidden border-4 border-slate-200 shadow-md mb-10 relative group bg-slate-50">
+            <img id="unit-image" class="w-full h-full object-contain sm:object-cover transition-transform duration-500 group-hover:scale-105" src="" alt="Unit Theme">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+        </div>
+
+        <!-- WRITING TASK FIRST -->
+        <div class="bg-orange-50 border-4 border-orange-400 rounded-[2rem] p-6 sm:p-8 mb-8 shadow-[0_8px_0_#fb923c] relative mt-16">
+            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-orange-400 text-white px-8 py-3 rounded-full border-4 border-white shadow-lg flex items-center gap-2">
+                <span class="text-2xl">✍️</span>
+                <h3 class="text-xl sm:text-2xl font-bold m-0">Let's Write!</h3>
+            </div>
+            
+            <div class="mt-6 text-lg text-slate-700 font-semibold" id="writing-task">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+
+        <!-- SPEAKING TASK SECOND -->
+        <div class="bg-cyan-50 border-4 border-cyan-400 rounded-[2rem] p-6 sm:p-8 mb-4 shadow-[0_8px_0_#22d3ee] relative mt-16">
+            <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-cyan-400 text-white px-8 py-3 rounded-full border-4 border-white shadow-lg flex items-center gap-2">
+                <span class="text-2xl">🗣️</span>
+                <h3 class="text-xl sm:text-2xl font-bold m-0">Let's Talk!</h3>
+            </div>
+            
+            <div class="mt-6 text-lg text-slate-700 font-semibold" id="speaking-task">
+                <!-- Content injected via JS -->
+            </div>
         </div>
     </main>
 
@@ -281,7 +230,7 @@
         const curriculum = {
             "Book 1": [
                 { 
-                    unit: 1, topic: "Friends", heroImg: "https://images.unsplash.com/photo-1519098901909-b1553a1190af?auto=format&fit=crop&w=800&q=80",
+                    unit: 1, topic: "Friends", heroImg: "https://images.pexels.com/photos/8466696/pexels-photo-8466696.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Hello! What is your name?</li>
@@ -295,16 +244,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the children in the picture. Write 3 sentences introducing them and their colors.</p>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
                                 <span class='quote'>Example: 'He is Tom. His favorite color is green.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Two kids smiling">
+                                <img src="https://images.pexels.com/photos/8466696/pexels-photo-8466696.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Kids together">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 2, topic: "Family", heroImg: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80",
+                    unit: 2, topic: "Family", heroImg: "https://images.pexels.com/photos/1648358/pexels-photo-1648358.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Who lives in your house with you?</li>
@@ -317,16 +267,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the family photo. Write 3 sentences to describe the family members.</p>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
                                 <span class='quote'>Example: 'He is my dad. She is my sister. We are happy.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1596066190600-3af9aadaea1f?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Family of four">
+                                <img src="https://images.pexels.com/photos/1648358/pexels-photo-1648358.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Family of four">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 3, topic: "House", heroImg: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
+                    unit: 3, topic: "House", heroImg: "https://images.pexels.com/photos/8301249/pexels-photo-8301249.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is your favorite room in your house?</li>
@@ -338,17 +289,18 @@
                     write: `
                         <div class="task-split">
                             <div class="text-col">
-                                <p>Look at the room. Complete the sentences to describe where things are.</p>
-                                <span class='quote'>1. There is a lamp ___ the table.<br>2. The cat is ___ the sofa.</span>
+                                <p>Look at the room. Write sentences to describe where 3 things are located.</p>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 1. There is a lamp on the table.<br>2. The cat is on the sofa.</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cat on a living room sofa">
+                                <img src="https://images.pexels.com/photos/8301249/pexels-photo-8301249.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Living room interior">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 4, topic: "Bedroom", heroImg: "https://images.unsplash.com/photo-1555505019-8c3f1c4aba5f?auto=format&fit=crop&w=800&q=80",
+                    unit: 4, topic: "Bedroom", heroImg: "https://images.pexels.com/photos/17495866/pexels-photo-17495866.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Do you like your bedroom?</li>
@@ -360,15 +312,16 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at this messy bedroom! Write 3 sentences about what you see using 'I see a...' or 'There is a...'.</p>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1595511890410-3b8dc237a537?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kid's bedroom with toys">
+                                <img src="https://images.pexels.com/photos/17495866/pexels-photo-17495866.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Kid's bedroom with toys and a bed">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 5, topic: "Farm", heroImg: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=800&q=80",
+                    unit: 5, topic: "Farm", heroImg: "https://images.pexels.com/photos/5727781/pexels-photo-5727781.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is your favorite farm animal?</li>
@@ -380,16 +333,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Choose one animal from the picture. Write about what it is and what it can/cannot do.</p>
-                                <span class='quote'>'It is a horse. It can run fast. It cannot fly.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'It is a horse. It can run fast. It cannot fly.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1596733430284-f7437764b1a9?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Farm animals in a field">
+                                <img src="https://images.pexels.com/photos/5727781/pexels-photo-5727781.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Farm animals in a field">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 6, topic: "Backyard", heroImg: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=800&q=80",
+                    unit: 6, topic: "Backyard", heroImg: "https://images.pexels.com/photos/11286018/pexels-photo-11286018.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Are you scared of bugs?</li>
@@ -401,16 +355,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Describe the bug in the picture. Write 2 sentences.</p>
-                                <span class='quote'>'This is a bee. It is yellow and black. It has wings.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'This is a bee. It is yellow and black. It has wings.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1552726710-4bc4644026dc?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A bee on a flower">
+                                <img src="https://images.pexels.com/photos/11286018/pexels-photo-11286018.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="A bee on a flower">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 7, topic: "Dressing Up", heroImg: "https://images.unsplash.com/photo-1519689680058-324335c77eba?auto=format&fit=crop&w=800&q=80",
+                    unit: 7, topic: "Dressing Up", heroImg: "https://images.pexels.com/photos/13729856/pexels-photo-13729856.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What are you wearing today?</li>
@@ -422,20 +377,21 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the child in the photo. Write what they are wearing.</p>
-                                <span class='quote'>'He is wearing a yellow jacket and a red hat.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'He is wearing a yellow jacket and a red hat.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1519238386389-9800e28f1cc6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Child wearing colorful winter clothes">
+                                <img src="https://images.pexels.com/photos/13729856/pexels-photo-13729856.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Child wearing colorful winter clothes">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 8, topic: "Park", heroImg: "https://images.unsplash.com/photo-1603827457577-609e6f42a45e?auto=format&fit=crop&w=800&q=80",
+                    unit: 8, topic: "Park", heroImg: "https://images.pexels.com/photos/12887150/pexels-photo-12887150.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What do you like to do at the park?</li>
-                            <li>Look at the picture. What is the boy doing?</li>
+                            <li>Look at the picture. What are the children doing?</li>
                         </ul>
                         <div class="teacher-notes"><strong>👨‍🏫 Teacher Guidance:</strong> Evaluate Present Continuous for actions happening now (running, jumping, playing).</div>
                     `,
@@ -443,10 +399,11 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write 3 sentences about what is happening in the picture using '-ing' words.</p>
-                                <span class='quote'>'The girl is jumping. The boy is kicking a ball.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'The girl is jumping. The boy is kicking a ball.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids playing in a park">
+                                <img src="https://images.pexels.com/photos/12887150/pexels-photo-12887150.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Kids playing in a park on a sunny day">
                             </div>
                         </div>
                     `
@@ -454,7 +411,7 @@
             ],
             "Book 2": [
                 { 
-                    unit: 1, topic: "School", heroImg: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80",
+                    unit: 1, topic: "School", heroImg: "https://images.pexels.com/photos/8617972/pexels-photo-8617972.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is your favorite subject at school?</li>
@@ -465,17 +422,18 @@
                     write: `
                         <div class="task-split">
                             <div class="text-col">
-                                <p>Look at the blank timetable. Write a short school schedule for Monday.</p>
-                                <span class='quote'>'On Monday, I have Math at 9:00. Then, I have Art.'</span>
+                                <p>Look at the notebooks. Write a short school schedule for Monday.</p>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'On Monday, I have Math at 9:00. Then, I have Art.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Notebook and pencils on desk">
+                                <img src="https://images.pexels.com/photos/8617972/pexels-photo-8617972.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Notebook and pencils on desk">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 2, topic: "Time", heroImg: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=800&q=80",
+                    unit: 2, topic: "Time", heroImg: "https://images.pexels.com/photos/10566139/pexels-photo-10566139.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What time do you wake up every day?</li>
@@ -487,16 +445,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write your morning routine using sequencing words.</p>
-                                <span class='quote'>'First, I wake up at 7:00. Next, I brush my teeth.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'First, I wake up at 7:00. Next, I brush my teeth.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1533727788540-377ebaf1bbbb?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Alarm clock and breakfast">
+                                <img src="https://images.pexels.com/photos/10566139/pexels-photo-10566139.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Alarm clock and breakfast">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 3, topic: "Market", heroImg: "https://images.unsplash.com/photo-1488459716781-31db52582fe9?auto=format&fit=crop&w=800&q=80",
+                    unit: 3, topic: "Market", heroImg: "https://images.pexels.com/photos/9619116/pexels-photo-9619116.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Do you like going to the supermarket?</li>
@@ -508,16 +467,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the fruit stand. Write a list of what they have and don't have using 'some' and 'any'.</p>
-                                <span class='quote'>'They have some bananas. They don't have any oranges.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'They have some bananas. They don't have any oranges.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Fruit stand at a market">
+                                <img src="https://images.pexels.com/photos/9619116/pexels-photo-9619116.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Fruit stand at a market">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 4, topic: "Lunch", heroImg: "https://images.unsplash.com/photo-1563805042-7684c8a9e9cb?auto=format&fit=crop&w=800&q=80",
+                    unit: 4, topic: "Lunch", heroImg: "https://images.pexels.com/photos/8617558/pexels-photo-8617558.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What do you usually eat for lunch?</li>
@@ -529,16 +489,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write a polite order for lunch based on the picture.</p>
-                                <span class='quote'>'Hello, I would like a burger and some fries, please.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'Hello, I would like a burger and some fries, please.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Burger, fries, and a drink">
+                                <img src="https://images.pexels.com/photos/8617558/pexels-photo-8617558.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Burger, fries, and a drink">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 5, topic: "Animal Rescue", heroImg: "https://images.unsplash.com/photo-1534567153574-2b12153a87f0?auto=format&fit=crop&w=800&q=80",
+                    unit: 5, topic: "Animal Rescue", heroImg: "https://images.pexels.com/photos/7008099/pexels-photo-7008099.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Which animal is bigger: a dog or an elephant?</li>
@@ -550,16 +511,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Compare the two animals in the picture. Write 2 sentences.</p>
-                                <span class='quote'>'The giraffe is taller than the elephant.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'The giraffe is taller than the elephant.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1517825738774-7de9363ef735?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Giraffe and elephant side by side">
+                                <img src="https://images.pexels.com/photos/7008099/pexels-photo-7008099.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Giraffe and elephant side by side">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 6, topic: "Wild Animals", heroImg: "https://images.unsplash.com/photo-1550358864-518f202c02ba?auto=format&fit=crop&w=800&q=80",
+                    unit: 6, topic: "Wild Animals", heroImg: "https://images.pexels.com/photos/38597695/pexels-photo-38597695.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is the scariest animal you know?</li>
@@ -571,16 +533,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write about the animal in the picture using superlatives.</p>
-                                <span class='quote'>'The cheetah is the fastest animal in the world.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'The cheetah is the fastest animal in the world.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-153ce27258079-0dbf88c3a817?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cheetah running">
+                                <img src="https://images.pexels.com/photos/38597695/pexels-photo-38597695.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Cheetah running">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 7, topic: "Try This!", heroImg: "https://images.unsplash.com/photo-1515523110800-9415d13b84a8?auto=format&fit=crop&w=800&q=80",
+                    unit: 7, topic: "Try This!", heroImg: "https://images.pexels.com/photos/30637224/pexels-photo-30637224.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What sports do you enjoy playing?</li>
@@ -592,16 +555,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the sports. Write 3 sentences about what you enjoy.</p>
-                                <span class='quote'>'I enjoy playing soccer. I am good at running fast.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'I enjoy playing soccer. I am good at running fast.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids playing basketball and soccer">
+                                <img src="https://images.pexels.com/photos/30637224/pexels-photo-30637224.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Kids playing basketball and soccer">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 8, topic: "Swimming", heroImg: "https://images.unsplash.com/photo-1519315901367-f34f915de326?auto=format&fit=crop&w=800&q=80",
+                    unit: 8, topic: "Swimming", heroImg: "https://images.pexels.com/photos/32418615/pexels-photo-32418615.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What must you do at the pool? (e.g., take a shower)</li>
@@ -613,10 +577,11 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the pool picture. Write 3 safety rules.</p>
-                                <span class='quote'>'1. You must wear a swim cap.<br>2. You mustn't run.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: '1. You must wear a swim cap.<br>2. You mustn't run.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1572097561845-6677f24072f5?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Indoor swimming pool">
+                                <img src="https://images.pexels.com/photos/32418615/pexels-photo-32418615.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Indoor swimming pool">
                             </div>
                         </div>
                     `
@@ -624,7 +589,7 @@
             ],
             "Book 3": [
                 { 
-                    unit: 1, topic: "Adventure", heroImg: "https://images.unsplash.com/photo-1504280390227-331bf6ebf0c0?auto=format&fit=crop&w=800&q=80",
+                    unit: 1, topic: "Adventure", heroImg: "https://images.pexels.com/photos/20890184/pexels-photo-20890184.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>How about going climbing this weekend?</li>
@@ -637,16 +602,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the adventure gear. Compare them using 'more' or 'less'.</p>
-                                <span class='quote'>'The helmet is more important than the water bottle for climbing.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'The helmet is more important than the water bottle for climbing.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Rock climbing gear on a rock">
+                                <img src="https://images.pexels.com/photos/20890184/pexels-photo-20890184.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Rock climbing gear on a rock">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 2, topic: "Seasons", heroImg: "https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&w=800&q=80",
+                    unit: 2, topic: "Seasons", heroImg: "https://images.pexels.com/photos/29505012/pexels-photo-29505012.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is the weather like today?</li>
@@ -659,16 +625,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Describe the season in the picture and the clothes you need.</p>
-                                <span class='quote'>'It is winter. It is snowing. You need a heavy coat and gloves.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'It is winter. It is snowing. You need a heavy coat and gloves.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1483664852095-d6cc6870702d?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Snowy winter landscape">
+                                <img src="https://images.pexels.com/photos/29505012/pexels-photo-29505012.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Snowy winter landscape">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 3, topic: "Town", heroImg: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&w=800&q=80",
+                    unit: 3, topic: "Town", heroImg: "https://images.pexels.com/photos/8083378/pexels-photo-8083378.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What places are in your town? (e.g., hospital, park)</li>
@@ -681,16 +648,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the street. Write directions to get to the yellow building.</p>
-                                <span class='quote'>'Go straight down the street. Turn left at the corner. It is on the right.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'Go straight down the street. Turn left at the corner. It is on the right.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1518398436585-84639a061eb6?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A colorful city street intersection">
+                                <img src="https://images.pexels.com/photos/8083378/pexels-photo-8083378.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="A colorful city street intersection">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 4, topic: "Past", heroImg: "https://images.unsplash.com/photo-1533154683836-84ea7a0bc310?auto=format&fit=crop&w=800&q=80",
+                    unit: 4, topic: "Past", heroImg: "https://images.pexels.com/photos/34561779/pexels-photo-34561779.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Where were you yesterday afternoon?</li>
@@ -703,16 +671,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write about this famous place in the past. Use 'was' and 'were'.</p>
-                                <span class='quote'>'It was a big castle. The walls were very tall and strong.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'It was a big castle. The walls were very tall and strong.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1524230572899-a752b38b584e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Ancient stone ruins or castle">
+                                <img src="https://images.pexels.com/photos/34561779/pexels-photo-34561779.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Ancient stone ruins or castle">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 5, topic: "Chores", heroImg: "https://images.unsplash.com/photo-1584820927498-cafe4c1064db?auto=format&fit=crop&w=800&q=80",
+                    unit: 5, topic: "Chores", heroImg: "https://images.pexels.com/photos/6651150/pexels-photo-6651150.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What did you do to help at home yesterday?</li>
@@ -725,16 +694,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write a short note to your mom about the chores you finished today.</p>
-                                <span class='quote'>'Mom, I cleaned my room and I washed the dog. I didn't take out the trash.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'Mom, I cleaned my room and I washed the dog. I didn't take out the trash.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Cleaning supplies in a bucket">
+                                <img src="https://images.pexels.com/photos/6651150/pexels-photo-6651150.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Cleaning supplies in a bucket">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 6, topic: "Health", heroImg: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?auto=format&fit=crop&w=800&q=80",
+                    unit: 6, topic: "Health", heroImg: "https://images.pexels.com/photos/7641242/pexels-photo-7641242.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Pretend you are a doctor. I have a headache. What should I do?</li>
@@ -747,16 +717,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the sick boy. Write 2 sentences giving him advice.</p>
-                                <span class='quote'>'You have a fever. You should drink water and you shouldn't go outside.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'You have a fever. You should drink water and you shouldn't go outside.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1584820926715-288258514936?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A person looking sick with a thermometer">
+                                <img src="https://images.pexels.com/photos/7641242/pexels-photo-7641242.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="A person looking sick with a thermometer">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 7, topic: "Family Stories", heroImg: "https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=800&q=80",
+                    unit: 7, topic: "Family Stories", heroImg: "https://images.pexels.com/photos/8317825/pexels-photo-8317825.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Could you read when you were five years old?</li>
@@ -769,16 +740,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write about an older person in your family using 'could' and an adverb (like 'fast' or 'well').</p>
-                                <span class='quote'>'When my grandpa was young, he could run very fast. He played soccer well.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'When my grandpa was young, he could run very fast. He played soccer well.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1520113412646-fa108603ee94?auto=format&fit=crop&w=400&q=80" class="task-image" alt="An old black and white family photograph">
+                                <img src="https://images.pexels.com/photos/8317825/pexels-photo-8317825.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="An old black and white family photograph">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 8, topic: "Future", heroImg: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=800&q=80",
+                    unit: 8, topic: "Future", heroImg: "https://images.pexels.com/photos/8294689/pexels-photo-8294689.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Do you think we will live on Mars one day?</li>
@@ -791,10 +763,11 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the picture of space. Write 2 predictions about the future.</p>
-                                <span class='quote'>'People will travel in flying cars. We will go to the moon to take a vacation.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'People will travel in flying cars. We will go to the moon to take a vacation.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Futuristic view of Earth from space">
+                                <img src="https://images.pexels.com/photos/8294689/pexels-photo-8294689.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Futuristic view of Earth from space">
                             </div>
                         </div>
                     `
@@ -802,7 +775,7 @@
             ],
             "Book 4": [
                 { 
-                    unit: 1, topic: "Clubs", heroImg: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80",
+                    unit: 1, topic: "Clubs", heroImg: "https://images.pexels.com/photos/8422209/pexels-photo-8422209.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Have you ever joined a club or a sports team?</li>
@@ -815,16 +788,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write about an activity you have tried. Say when you did it.</p>
-                                <span class='quote'>'I have joined a science club. I joined it last year. We made a volcano.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'I have joined a science club. I joined it last year. We made a volcano.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Kids doing a science experiment">
+                                <img src="https://images.pexels.com/photos/8422209/pexels-photo-8422209.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Group of kids sitting and talking">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 2, topic: "Hobbies", heroImg: "https://images.unsplash.com/photo-1456086272160-b223402d00f4?auto=format&fit=crop&w=800&q=80",
+                    unit: 2, topic: "Hobbies", heroImg: "https://images.pexels.com/photos/9644400/pexels-photo-9644400.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What is your favorite hobby right now?</li>
@@ -837,16 +811,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Describe a collection or a hobby. Use 'for' or 'since'.</p>
-                                <span class='quote'>'I collect toy cars. I have collected them since I was five. They are made of metal.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'I collect toy cars. I have collected them since I was five. They are made of metal.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1582650596350-13e00fcbe4b4?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Collection of vintage stamps or toys">
+                                <img src="https://images.pexels.com/photos/9644400/pexels-photo-9644400.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Collection of vintage toy cars">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 3, topic: "Tech", heroImg: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
+                    unit: 3, topic: "Tech", heroImg: "https://images.pexels.com/photos/7868894/pexels-photo-7868894.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Will robots go to school with us in the future?</li>
@@ -859,16 +834,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the robot. Write your opinion about future technology using 'may' or 'might'.</p>
-                                <span class='quote'>'In the future, robots might clean our houses. They may help us do homework.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'In the future, robots might clean our houses. They may help us do homework.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A friendly looking robot">
+                                <img src="https://images.pexels.com/photos/7868894/pexels-photo-7868894.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="A friendly looking robot">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 4, topic: "Futures", heroImg: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80",
+                    unit: 4, topic: "Futures", heroImg: "https://images.pexels.com/photos/15012406/pexels-photo-15012406.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What are you going to be when you grow up?</li>
@@ -881,16 +857,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write your career plan. What are you going to do?</p>
-                                <span class='quote'>'I am going to be a doctor. I am going to help everyone who is sick.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'I am going to be a doctor. I am going to help everyone who is sick.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Person looking through a telescope or a professional working">
+                                <img src="https://images.pexels.com/photos/15012406/pexels-photo-15012406.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Person studying with a telescope">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 5, topic: "Stories", heroImg: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=800&q=80",
+                    unit: 5, topic: "Stories", heroImg: "https://images.pexels.com/photos/8390270/pexels-photo-8390270.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What were you doing yesterday at 8 PM?</li>
@@ -903,16 +880,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Look at the spooky house. Write a short 2-sentence story about it.</p>
-                                <span class='quote'>'I was walking past the old house when I heard a loud ghost noise!'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'I was walking past the old house when I heard a loud ghost noise!'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1518715303843-586e350765b2?auto=format&fit=crop&w=400&q=80" class="task-image" alt="A dark and spooky forest or house">
+                                <img src="https://images.pexels.com/photos/8390270/pexels-photo-8390270.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="A dark and spooky forest or house">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 6, topic: "News", heroImg: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80",
+                    unit: 6, topic: "News", heroImg: "https://images.pexels.com/photos/31517417/pexels-photo-31517417.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Have you seen the news today yet?</li>
@@ -925,16 +903,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Write a quick news report about your day using 'already' and 'yet'.</p>
-                                <span class='quote'>'Breaking news! I have already eaten lunch, but I haven't done my homework yet.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'Breaking news! I have already eaten lunch, but I haven't done my homework yet.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Newspapers stacked or a microphone">
+                                <img src="https://images.pexels.com/photos/31517417/pexels-photo-31517417.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Newspapers stacked">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 7, topic: "Science", heroImg: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80",
+                    unit: 7, topic: "Science", heroImg: "https://images.pexels.com/photos/8472001/pexels-photo-8472001.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>What happens if you mix blue and yellow paint?</li>
@@ -947,16 +926,17 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Explain a simple science fact using 'If'.</p>
-                                <span class='quote'>'If you put water in the freezer, it turns into ice.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'If you put water in the freezer, it turns into ice.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1574682710403-2ee0f3cb3c20?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Colorful chemistry beakers">
+                                <img src="https://images.pexels.com/photos/8472001/pexels-photo-8472001.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="Colorful chemistry beakers">
                             </div>
                         </div>
                     `
                 },
                 { 
-                    unit: 8, topic: "Changing World", heroImg: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80",
+                    unit: 8, topic: "Changing World", heroImg: "https://images.pexels.com/photos/27177564/pexels-photo-27177564.jpeg?auto=compress&cs=tinysrgb&w=800",
                     speak: `
                         <ul class="question-list">
                             <li>Did you use to live in a different city when you were a baby?</li>
@@ -969,10 +949,11 @@
                         <div class="task-split">
                             <div class="text-col">
                                 <p>Compare how things were in the past to now. Use 'used to'.</p>
-                                <span class='quote'>'People used to ride horses everywhere. Now, cars are as fast as airplanes.'</span>
+                                <span class='time-limit-badge'>⏱️ Time Limit: 10 Minutes</span><br>
+                                <span class='quote'>Example: 'People used to ride horses everywhere. Now, cars are as fast as airplanes.'</span>
                             </div>
                             <div class="img-col">
-                                <img src="https://images.unsplash.com/photo-1464638708307-e547071db196?auto=format&fit=crop&w=400&q=80" class="task-image" alt="Split image or an old steam train vs modern train">
+                                <img src="https://images.pexels.com/photos/27177564/pexels-photo-27177564.jpeg?auto=compress&cs=tinysrgb&w=800" class="task-image" alt="An old steam train crossing a modern landscape">
                             </div>
                         </div>
                     `
@@ -981,42 +962,68 @@
         };
 
         const bookNav = document.getElementById('book-nav');
+        const unitContainer = document.getElementById('unit-container');
         const unitNav = document.getElementById('unit-nav');
         const contentArea = document.getElementById('content-area');
         
         let currentBook = null;
 
         function init() {
-            Object.keys(curriculum).forEach(bookName => {
+            const bookColors = [
+                { bg: 'bg-yellow-300', border: 'border-yellow-500', shadow: 'shadow-[0_6px_0_#ca8a04]', text: 'text-yellow-900', hover: 'hover:bg-yellow-400', icon: '🎒' },
+                { bg: 'bg-green-300', border: 'border-green-500', shadow: 'shadow-[0_6px_0_#16a34a]', text: 'text-green-900', hover: 'hover:bg-green-400', icon: '🎨' },
+                { bg: 'bg-rose-300', border: 'border-rose-500', shadow: 'shadow-[0_6px_0_#e11d48]', text: 'text-rose-900', hover: 'hover:bg-rose-400', icon: '🚀' },
+                { bg: 'bg-purple-300', border: 'border-purple-500', shadow: 'shadow-[0_6px_0_#9333ea]', text: 'text-purple-900', hover: 'hover:bg-purple-400', icon: '🔬' }
+            ];
+
+            Object.keys(curriculum).forEach((bookName, index) => {
+                const color = bookColors[index % bookColors.length];
                 const btn = document.createElement('button');
-                btn.className = 'btn btn-book';
-                btn.innerText = bookName;
-                btn.onclick = () => selectBook(bookName, btn);
+                
+                btn.className = `btn-bouncy ${color.bg} ${color.border} border-4 ${color.shadow} ${color.text} ${color.hover} font-bold text-xl sm:text-2xl py-4 px-6 rounded-2xl flex-1 min-w-[140px]`;
+                btn.innerHTML = `${color.icon} <br/> <span class="text-sm uppercase tracking-wide opacity-80 block mt-1">Select</span> ${bookName}`;
+                
+                btn.onclick = () => {
+                    // Visual active state reset
+                    document.querySelectorAll('#book-nav button').forEach(b => {
+                        b.classList.remove('opacity-100', 'scale-105');
+                        b.classList.add('opacity-60');
+                    });
+                    btn.classList.remove('opacity-60');
+                    btn.classList.add('opacity-100', 'scale-105');
+                    
+                    selectBook(bookName);
+                };
                 bookNav.appendChild(btn);
             });
         }
 
-        function selectBook(bookName, btnElement) {
+        function selectBook(bookName) {
             currentBook = bookName;
-            document.querySelectorAll('.btn-book').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-            
             unitNav.innerHTML = '';
-            contentArea.style.display = 'none';
+            contentArea.classList.add('hidden');
+            unitContainer.classList.remove('hidden');
 
             curriculum[bookName].forEach(unitData => {
                 const btn = document.createElement('button');
-                btn.className = 'btn btn-unit visible';
-                btn.innerText = `Unit ${unitData.unit}: ${unitData.topic}`;
-                btn.onclick = () => displayUnit(unitData, btn);
+                btn.className = 'btn-bouncy bg-sky-200 border-4 border-sky-400 shadow-[0_4px_0_#0284c7] text-sky-900 hover:bg-sky-300 font-bold text-md sm:text-lg py-3 px-2 rounded-xl flex flex-col items-center justify-center gap-1';
+                btn.innerHTML = `<span class="bg-white rounded-full px-3 py-1 text-xs border-2 border-sky-400 mb-1">Unit ${unitData.unit}</span> <span class="leading-tight">${unitData.topic}</span>`;
+                
+                btn.onclick = () => {
+                    document.querySelectorAll('#unit-nav button').forEach(b => {
+                        b.classList.remove('bg-sky-400', 'text-white');
+                        b.classList.add('bg-sky-200', 'text-sky-900');
+                    });
+                    btn.classList.remove('bg-sky-200', 'text-sky-900');
+                    btn.classList.add('bg-sky-400', 'text-white');
+                    
+                    displayUnit(unitData);
+                };
                 unitNav.appendChild(btn);
             });
         }
 
-        function displayUnit(unitData, btnElement) {
-            document.querySelectorAll('.btn-unit').forEach(b => b.classList.remove('active'));
-            btnElement.classList.add('active');
-
+        function displayUnit(unitData) {
             document.getElementById('unit-title').innerText = `${currentBook} - Unit ${unitData.unit}: ${unitData.topic}`;
             document.getElementById('unit-image').src = unitData.heroImg;
             document.getElementById('unit-image').alt = `Theme for ${unitData.topic}`;
@@ -1024,9 +1031,15 @@
             document.getElementById('speaking-task').innerHTML = unitData.speak;
             document.getElementById('writing-task').innerHTML = unitData.write;
 
-            contentArea.style.display = 'block';
+            contentArea.classList.remove('hidden');
+            
+            // Smooth scroll down to the content area
+            setTimeout(() => {
+                contentArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
+        // Start the app
         init();
     </script>
 </body>
